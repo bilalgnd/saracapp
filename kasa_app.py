@@ -1,3 +1,4 @@
+# pyrefly: ignore [missing-import]
 import customtkinter as ctk
 import json
 import os
@@ -13,10 +14,10 @@ from flask import Flask, request, jsonify
 from flask_sock import Sock
 
 # --- AUTO UPDATE SİSTEMİ ---
-GITHUB_RAW_URL = "https://raw.githubusercontent.com/KULLANICI_ADI/REPO_ADI/main/kasa_app.py" # BURAYI KENDİ GITHUB RAW LİNKİNİZ İLE DEĞİŞTİRİN
+GITHUB_RAW_URL = "https://raw.githubusercontent.com/bilalgnd/saracapp/refs/heads/main/kasa_app.py"
 def auto_update_kontrol():
     try:
-        print("Güncelleme kontrol ediliyor...")
+        print("Guncelleme kontrol ediliyor...")
         response = requests.get(GITHUB_RAW_URL, timeout=5)
         if response.status_code == 200:
             yeni_kod = response.text
@@ -25,14 +26,14 @@ def auto_update_kontrol():
                 mevcut_kod = f.read()
             # Basit bir kontrol: import kısmı var mı diye bakıyoruz, yanlış dosya inmesin
             if yeni_kod.strip() != mevcut_kod.strip() and "import customtkinter" in yeni_kod:
-                print("Yeni sürüm bulundu! Güncelleniyor ve yeniden başlatılıyor...")
+                print("Yeni surum bulundu! Guncelleniyor ve yeniden baslatiliyor...")
                 with open(__file__, "w", encoding="utf-8") as f:
                     f.write(yeni_kod)
                 os.execv(sys.executable, [sys.executable] + sys.argv)
             else:
-                print("Sistem güncel.")
+                print("Sistem guncel.")
     except Exception as e:
-        print(f"Güncelleme kontrolü başarısız veya test ortamı: {e}")
+        print(f"Guncelleme kontrolu basarisiz veya test ortami: {e}")
 
 # Uygulama başlarken güncellemeyi kontrol et
 auto_update_kontrol()
