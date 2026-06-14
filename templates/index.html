@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Saraçoğlu Döner POS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=5">
+    <meta name="theme-color" id="themeColorMeta" content="#121212">
+</head>
+<body>
+
+    <header class="top-app-bar" id="topAppBar">
+        <div class="header-content">
+            <div class="header-left">
+                <h1 class="app-title" id="appTitle">SARAÇOĞLU DÖNER</h1>
+                <div class="kasa-status" id="kasaStatus">🔴 Kasa Çevrimdışı</div>
+            </div>
+            <button class="icon-btn" id="settingsBtn">⚙️</button>
+        </div>
+        <button class="back-btn hidden" id="backBtn">< Geri</button>
+    </header>
+
+    <nav class="tab-row" id="tabRow">
+        <button class="tab-btn active" data-tab="et"><span class="tab-icon">🍔</span><span class="tab-text">ET</span></button>
+        <button class="tab-btn" data-tab="tavuk"><span class="tab-icon">🍗</span><span class="tab-text">TAVUK</span></button>
+        <button class="tab-btn" data-tab="kampanya"><span class="tab-icon">🏷️</span><span class="tab-text">KAMPANYA</span></button>
+        <button class="tab-btn" data-tab="icecekler"><span class="tab-icon">🥤</span><span class="tab-text">İÇECEK</span></button>
+    </nav>
+
+    <main class="content-area" id="menuArea"></main>
+
+    <main class="content-area hidden" id="masalarArea">
+        <div class="masalar-list" id="masalarList"></div>
+    </main>
+
+    <!-- Floating Action Button for Masalar -->
+    <button class="fab-masalar" id="fabMasalar">Masalar (0)</button>
+
+    <!-- Active Table Bottom Bar -->
+    <div class="bottom-app-bar hidden" id="bottomAppBar">
+        <div class="bab-info">
+            <div class="bab-title" id="babTitle">Masa: </div>
+            <div class="bab-subtitle" id="babSubtitle">0 Ürün - 0 ₺</div>
+        </div>
+        <div class="bab-actions">
+            <button class="btn-text" id="babCancel">İptal</button>
+            <button class="btn-contained" id="babSend">Siparişi Gönder</button>
+        </div>
+    </div>
+
+    <!-- Product Bottom Sheet -->
+    <div class="overlay" id="sheetOverlay"></div>
+    <div class="bottom-sheet" id="productSheet">
+        <div class="sheet-header">
+            <h2 id="sheetProductName">Ürün Adı</h2>
+            <div class="quantity-selector">
+                <button id="qtyMinus">-</button>
+                <span id="qtyText">1</span>
+                <button id="qtyPlus">+</button>
+            </div>
+        </div>
+        <div class="sheet-content">
+            <h3 class="section-title">Seçim / Gramaj</h3>
+            <div class="chips-container" id="optionsContainer"></div>
+            
+            <div id="icerikCikarSection" class="hidden">
+                <h3 class="section-title" style="margin-top:20px; color: var(--primary-light);">İçerik Çıkar</h3>
+                <div class="chips-container" id="icerikCikarContainer"></div>
+                
+                <h3 class="section-title" style="margin-top:20px; color: var(--yellow);">Ücretli Ekstralar</h3>
+                <div class="chips-container" id="ucretliEkstralarContainer"></div>
+                
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <div style="flex:1;">
+                        <h3 class="section-title">Notlar</h3>
+                        <div class="chips-container" id="ucretsizEkstralarContainer"></div>
+                    </div>
+                    <div style="flex:1;">
+                        <h3 class="section-title">Ödeme</h3>
+                        <div class="chips-container" id="odemeContainer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="drinksSection" class="hidden">
+                <h3 class="section-title" style="margin-top:20px; color: var(--primary-light);">Hızlı İçecek Ekle</h3>
+                <div class="drinks-grid" id="drinksContainer"></div>
+            </div>
+
+            <h3 class="section-title" style="margin-top:20px;">Özel Not</h3>
+            <input type="text" class="custom-input" id="noteInput" placeholder="Örn: Çok pişsin">
+
+            <div id="masaAdiSection">
+                <h3 class="section-title" style="margin-top:20px;">Masa No / İsim</h3>
+                <input type="text" class="custom-input" id="masaInput" placeholder="Örn: Masa 5">
+            </div>
+
+            <button class="btn-massive" id="addToCartBtn">Siparişe Ekle (0 ₺)</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="overlay" id="settingsOverlay"></div>
+    <div class="modal" id="settingsModal">
+        <h3>⚙️ Ayarlar</h3>
+        <p>Siparişlerin yanında görünecek renginizi seçin:</p>
+        <div class="color-grid" id="colorGrid"></div>
+        <div class="modal-actions">
+            <button class="btn-text" id="closeSettingsBtn">İptal</button>
+        </div>
+    </div>
+
+    <script src="/static/app.js?v=5"></script>
+</body>
+</html>
