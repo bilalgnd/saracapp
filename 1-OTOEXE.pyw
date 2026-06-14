@@ -16,14 +16,15 @@ if dosya_yolu:
     
     komut = [
         "pyinstaller",
+        "--name=saracapp",
         "--noconsole",
         "--onefile",
-        "--clean",
         "--icon=logo.ico",
         "--add-data=templates;templates",
         "--add-data=static;static",
-        "--collect-all=requests",
-        "--collect-all=urllib3",
+        "--hidden-import=requests",
+        "--hidden-import=urllib3",
+        "--hidden-import=urllib3.packages.six.moves",
         dosya_yolu
     ]
     

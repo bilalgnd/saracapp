@@ -9,34 +9,11 @@ import datetime
 import keyboard
 import requests
 import sys
+import webbrowser
 from flask import Flask, request, jsonify, render_template
 from flask_sock import Sock
 
-# --- AUTO UPDATE SİSTEMİ ---
-GITHUB_RAW_URL = "https://raw.githubusercontent.com/KULLANICI_ADI/REPO_ADI/main/kasa_app.py" # BURAYI KENDİ GITHUB RAW LİNKİNİZ İLE DEĞİŞTİRİN
-def auto_update_kontrol():
-    try:
-        print("Güncelleme kontrol ediliyor...")
-        response = requests.get(GITHUB_RAW_URL, timeout=5)
-        if response.status_code == 200:
-            yeni_kod = response.text
-            mevcut_kod = ""
-            with open(__file__, "r", encoding="utf-8") as f:
-                mevcut_kod = f.read()
-            # Basit bir kontrol: import kısmı var mı diye bakıyoruz, yanlış dosya inmesin
-            if yeni_kod.strip() != mevcut_kod.strip() and "import customtkinter" in yeni_kod:
-                print("Yeni sürüm bulundu! Güncelleniyor ve yeniden başlatılıyor...")
-                with open(__file__, "w", encoding="utf-8") as f:
-                    f.write(yeni_kod)
-                os.execv(sys.executable, [sys.executable] + sys.argv)
-            else:
-                print("Sistem güncel.")
-    except Exception as e:
-        print(f"Güncelleme kontrolü başarısız veya test ortamı: {e}")
 
-# Uygulama başlarken güncellemeyi kontrol et
-auto_update_kontrol()
-# --------------------------
 
 try:
     import setproctitle
@@ -184,6 +161,12 @@ def telefona_guncelleme_gonder():
             try: ws.send(veri)
             except: bagli_telefonlar.remove(ws)
 
+def telefona_ozel_mesaj_gonder(mesaj_dict):
+    veri = json.dumps(mesaj_dict)
+    for ws in list(bagli_telefonlar):
+        try: ws.send(veri)
+        except: bagli_telefonlar.remove(ws)
+
 @sock.route('/ws')
 def websocket_baglantisi(ws):
     bagli_telefonlar.add(ws)
@@ -283,6 +266,8 @@ class KasaSistemi(ctk.CTk):
         self.garson_isik_lbl.pack(side="left", padx=15, pady=8)
 
         btn_kutu = ctk.CTkFrame(tepe_kutu, fg_color="transparent"); btn_kutu.pack(side="right")
+        self.guncelleme_btn = ctk.CTkButton(btn_kutu, text="🔄", font=("Arial", 22, "bold"), fg_color="#1565C0", hover_color="#0D47A1", command=self.guncellemeleri_kontrol_et, width=50, height=40)
+        self.guncelleme_btn.pack(side="left", padx=5)
         self.ayarlar_btn = ctk.CTkButton(btn_kutu, text="⚙️ Fiyat", font=("Arial", 18, "bold"), fg_color="#B71C1C", hover_color="#D32F2F", command=self.ayarlar_modu_degistir, width=90, height=40)
         self.ayarlar_btn.pack(side="left", padx=5)
         self.yazici_btn = ctk.CTkButton(btn_kutu, text="🖨️ Yazıcı", font=("Arial", 18, "bold"), fg_color="#424242", command=self.yazici_ayari_penceresi, width=90, height=40)
@@ -344,6 +329,42 @@ class KasaSistemi(ctk.CTk):
 
     def arka_plana_gizle(self): self.withdraw()
     def sistemi_tamamen_kapat(self): os._exit(0)
+
+    def guncellemeleri_kontrol_et(self):
+        def islem():
+            try:
+                response = requests.get("https://api.github.com/repos/bilalgnd/saracapp/releases/latest", timeout=5)
+                if response.status_code == 200:
+                    data = response.json()
+                    tag = data.get("tag_name", "")
+                    assets = data.get("assets", [])
+                    apk_url = None
+                    exe_url = None
+                    for a in assets:
+                        if a.get("name", "").endswith(".apk"): apk_url = a.get("browser_download_url")
+                        if a.get("name", "").endswith(".exe"): exe_url = a.get("browser_download_url")
+                    
+                    mesajlar = []
+                    if apk_url:
+                        telefona_ozel_mesaj_gonder({"type": "apk_guncelleme", "url": apk_url})
+                        mesajlar.append(f"Android APK güncellemesi ({tag}) bulundu ve bağlı garsonlara yollanıyor.")
+                    
+                    if exe_url:
+                        mesajlar.append(f"Yeni Kasa EXE sürümü ({tag}) bulundu.")
+                    
+                    if mesajlar:
+                        if exe_url:
+                            cevap = messagebox.askyesno("Güncelleme", "\\n".join(mesajlar) + "\\n\\nKasa uygulamasının yeni sürümünü tarayıcıda indirmek ister misiniz?")
+                            if cevap: webbrowser.open(exe_url)
+                        else:
+                            messagebox.showinfo("Güncelleme", "\\n".join(mesajlar))
+                    else:
+                        messagebox.showinfo("Güncelleme", f"En son yayınlanan sürüm ({tag}) için EXE veya APK dosyası bulunamadı.")
+                else:
+                    messagebox.showerror("Hata", "Güncellemeler kontrol edilirken bir hata oluştu. İnternet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.")
+            except Exception as e:
+                messagebox.showerror("Hata", f"Bağlantı hatası: {e}")
+        threading.Thread(target=islem, daemon=True).start()
     def arayuzu_goster_tetikleyici(self): self.after(0, self.arayuzu_goster_veya_gizle)
     def arayuzu_goster_veya_gizle(self):
         if self.winfo_viewable(): self.withdraw()

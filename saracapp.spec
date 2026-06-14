@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='kasa_app',
+    name='saracapp',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

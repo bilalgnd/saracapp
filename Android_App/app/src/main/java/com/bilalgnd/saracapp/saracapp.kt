@@ -1,6 +1,9 @@
 package com.bilalgnd.saracapp
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import org.json.JSONObject
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -193,6 +196,7 @@ fun AnaEkran() {
     var aktifMasaAdi by remember { mutableStateOf<String?>(null) }
     val taslakKalemler = remember { mutableStateListOf<SiparisKalemi>() }
     var duzenlenenAdisyonIsmi by remember { mutableStateOf<String?>(null) }
+    var guncellemeUrl by remember { mutableStateOf<String?>(null) }
 
     var kasaAyarPenceresiAcik by remember { mutableStateOf(false) }
 
@@ -237,8 +241,15 @@ fun AnaEkran() {
                         override fun onOpen(webSocket: WebSocket, response: Response) { kasaOnline = true }
                         override fun onMessage(webSocket: WebSocket, text: String) {
                             try {
-                                val gelenListe: List<Adisyon> = Gson().fromJson(text, object : TypeToken<List<Adisyon>>() {}.type)
-                                aktifSiparisler.clear(); aktifSiparisler.addAll(gelenListe); hafiza.aktifMasalariKaydet(gelenListe)
+                                if (text.trim().startsWith("{")) {
+                                    val jsonObj = JSONObject(text)
+                                    if (jsonObj.has("type") && jsonObj.getString("type") == "apk_guncelleme") {
+                                        guncellemeUrl = jsonObj.getString("url")
+                                    }
+                                } else {
+                                    val gelenListe: List<Adisyon> = Gson().fromJson(text, object : TypeToken<List<Adisyon>>() {}.type)
+                                    aktifSiparisler.clear(); aktifSiparisler.addAll(gelenListe); hafiza.aktifMasalariKaydet(gelenListe)
+                                }
                             } catch (e: Exception) {}
                         }
                         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) { kasaOnline = false; activeWebSocket = null }
@@ -404,6 +415,29 @@ fun AnaEkran() {
                     }) { Text("Kaydet", fontSize = 18.sp) }
                 },
                 dismissButton = { TextButton(onClick = { notDuzenlenecekKalem = null }) { Text("İptal", fontSize = 18.sp, color = Color.LightGray) } }
+            )
+        }
+
+        if (guncellemeUrl != null) {
+            AlertDialog(
+                onDismissRequest = { },
+                containerColor = Color(0xFF242424),
+                title = { Text("📢 Yeni Güncelleme!", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold) },
+                text = { Text("Kasa tarafından yeni bir Android sürümü yayınlandı. İndirip kurmak ister misiniz?", color = Color.LightGray, fontSize = 18.sp) },
+                confirmButton = {
+                    Button(onClick = {
+                        val i = Intent(Intent.ACTION_VIEW, Uri.parse(guncellemeUrl))
+                        context.startActivity(i)
+                        guncellemeUrl = null
+                    }, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))) {
+                        Text("İndir", fontSize = 18.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { guncellemeUrl = null }) {
+                        Text("Daha Sonra", fontSize = 18.sp, color = Color.Gray)
+                    }
+                }
             )
         }
 
