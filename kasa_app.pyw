@@ -396,14 +396,17 @@ class KasaSistemi(ctk.CTk):
                                 if apk_url:
                                     try: telefona_ozel_mesaj_gonder({"type": "apk_guncelleme", "url": apk_url})
                                     except: pass
-                                    messagebox.showinfo("Basarili", "Garsonlara indirme bildirimi gonderildi!")
+                                    durum_lbl.configure(text="Garsonlara bildirim basariyla yollandi!", text_color="#FFEB3B")
                             
                             if exe_url:
                                 ctk.CTkButton(panel, text="PC Exe Indir (Tarayicida)", font=("Arial", 16, "bold"), command=exe_indir, height=45).pack(pady=10, padx=20, fill="x")
                             if apk_url:
                                 ctk.CTkButton(panel, text="Garsonlara APK Gonder", font=("Arial", 16, "bold"), fg_color="#F44336", hover_color="#D32F2F", command=mobile_yolla, height=45).pack(pady=10, padx=20, fill="x")
+                            
+                            durum_lbl = ctk.CTkLabel(panel, text="", font=("Arial", 15, "bold"))
+                            durum_lbl.pack(pady=5)
                                 
-                            ctk.CTkButton(panel, text="Kapat", font=("Arial", 16), fg_color="#424242", hover_color="#616161", command=panel.destroy, height=40).pack(pady=15, padx=20, fill="x")
+                            ctk.CTkButton(panel, text="Kapat", font=("Arial", 16), fg_color="#424242", hover_color="#616161", command=panel.destroy, height=40).pack(pady=5, padx=20, fill="x")
                             
                         self.after(0, arayuz_sor)
                     else:
