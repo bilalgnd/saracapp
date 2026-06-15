@@ -233,6 +233,8 @@ class KasaSistemi(ctk.CTk):
         self.title("SARAÇOĞLU DÖNER - POS")
         ctk.set_appearance_mode("dark") 
         self.geometry("1400x800")
+        self.minsize(1200, 700)
+        self.after(100, lambda: self.state('zoomed'))
         
         self.withdraw()
         self.protocol("WM_DELETE_WINDOW", self.arka_plana_gizle)
@@ -269,7 +271,7 @@ class KasaSistemi(ctk.CTk):
         tepe_kutu.pack(fill="x", padx=5, pady=5)
         self.baslik = ctk.CTkLabel(tepe_kutu, text="SARAÇOĞLU", font=("Arial", 28, "bold"), text_color="#FF9800")
         self.baslik.pack(side="left", padx=(5, 0))
-        ctk.CTkLabel(tepe_kutu, text="v3.0.1", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
+        ctk.CTkLabel(tepe_kutu, text="v3.0.2", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
 
         bilgi_kutu = ctk.CTkFrame(tepe_kutu, fg_color="#1E1E1E", corner_radius=10); bilgi_kutu.pack(side="left", padx=5)
         gosterilecek_ip = KASA_IP if AKTIF_PORT == 5000 else f"{KASA_IP}:{AKTIF_PORT}"
