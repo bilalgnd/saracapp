@@ -212,7 +212,17 @@ def menuyu_getir():
         "ekstralar": UCRETLI_EKSTRALAR
     })
 
-def sunucuyu_baslat(): flask_app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+def port_musait_mi(port):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) != 0
+
+AKTIF_PORT = 5000
+for p in range(5000, 5010):
+    if port_musait_mi(p):
+        AKTIF_PORT = p
+        break
+
+def sunucuyu_baslat(): flask_app.run(host='0.0.0.0', port=AKTIF_PORT, debug=False, use_reloader=False)
 
 class KasaSistemi(ctk.CTk):
     def __init__(self):
@@ -261,7 +271,8 @@ class KasaSistemi(ctk.CTk):
         self.baslik.pack(side="left", padx=10)
 
         bilgi_kutu = ctk.CTkFrame(tepe_kutu, fg_color="#1E1E1E", corner_radius=10); bilgi_kutu.pack(side="left", padx=20)
-        ctk.CTkLabel(bilgi_kutu, text=f"IP: {KASA_IP}", font=("Arial", 16, "bold"), text_color="white").pack(side="left", padx=15, pady=8)
+        gosterilecek_ip = KASA_IP if AKTIF_PORT == 5000 else f"{KASA_IP}:{AKTIF_PORT}"
+        ctk.CTkLabel(bilgi_kutu, text=f"IP: {gosterilecek_ip}", font=("Arial", 16, "bold"), text_color="white").pack(side="left", padx=15, pady=8)
         self.garson_isik_lbl = ctk.CTkLabel(bilgi_kutu, text="🔴 Garson Yok", font=("Arial", 16, "bold"), text_color="#F44336")
         self.garson_isik_lbl.pack(side="left", padx=15, pady=8)
 
