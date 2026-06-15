@@ -135,6 +135,9 @@ def usb_fis_yazdir(musteri_adi, kalemler, toplam_tutar, saat=""):
             win32print.StartPagePrinter(hPrinter); win32print.WritePrinter(hPrinter, bytes(fis)); win32print.WritePrinter(hPrinter, CUT)
             win32print.EndPagePrinter(hPrinter); win32print.EndDocPrinter(hPrinter)
         finally: win32print.ClosePrinter(hPrinter)
+        try:
+            if kasa_arayuz_referansi: kasa_arayuz_referansi.after(0, lambda: kasa_arayuz_referansi.pc_bildirim_goster("Fiş Yazdırıldı", f"Masa: {musteri_adi} | Tutar: {toplam_tutar} TL"))
+        except: pass
     except Exception: pass
 
 import sys
@@ -233,14 +236,28 @@ class KasaSistemi(ctk.CTk):
         self.title("SARAÇOĞLU DÖNER - POS")
         ctk.set_appearance_mode("dark") 
         self.geometry("1400x800")
-        self.minsize(1200, 700)
+        self.minsize(1300, 700)
         self.after(100, lambda: self.state('zoomed'))
         
         self.withdraw()
         self.protocol("WM_DELETE_WINDOW", self.arka_plana_gizle)
         keyboard.add_hotkey('ctrl+shift+alt+f2', self.arayuzu_goster_tetikleyici)
+        keyboard.add_hotkey('ctrl+alt+s', self.arayuzu_goster_tetikleyici)
 
         threading.Thread(target=sunucuyu_baslat, daemon=True).start()
+        
+    def pc_bildirim_goster(self, baslik, mesaj):
+        toast = ctk.CTkToplevel(self)
+        toast.overrideredirect(True)
+        toast.attributes("-topmost", True)
+        toast.configure(fg_color="#2E2E2E")
+        w, h = 350, 90
+        x = self.winfo_screenwidth() - w - 20
+        y = self.winfo_screenheight() - h - 60
+        toast.geometry(f"{w}x{h}+{x}+{y}")
+        ctk.CTkLabel(toast, text=baslik, font=("Arial", 16, "bold"), text_color="#4CAF50").pack(pady=(10,5))
+        ctk.CTkLabel(toast, text=mesaj, font=("Arial", 14), text_color="white").pack(pady=(0,10))
+        self.after(3000, toast.destroy)
 
         self.menu_icecekler = menuyu_guncelle(baslangic_menu_icecekler)
         icecek_baslik = [{"ad": "🥤 İÇECEKLER", "is_header": True}]
@@ -271,7 +288,7 @@ class KasaSistemi(ctk.CTk):
         tepe_kutu.pack(fill="x", padx=5, pady=5)
         self.baslik = ctk.CTkLabel(tepe_kutu, text="SARAÇOĞLU", font=("Arial", 28, "bold"), text_color="#FF9800")
         self.baslik.pack(side="left", padx=(5, 0))
-        ctk.CTkLabel(tepe_kutu, text="v3.0.2", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
+        ctk.CTkLabel(tepe_kutu, text="v3.0.3", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
 
         bilgi_kutu = ctk.CTkFrame(tepe_kutu, fg_color="#1E1E1E", corner_radius=10); bilgi_kutu.pack(side="left", padx=5)
         gosterilecek_ip = KASA_IP if AKTIF_PORT == 5000 else f"{KASA_IP}:{AKTIF_PORT}"
@@ -358,27 +375,45 @@ class KasaSistemi(ctk.CTk):
                         if a.get("name", "").endswith(".apk"): apk_url = a.get("browser_download_url")
                         if a.get("name", "").endswith(".exe"): exe_url = a.get("browser_download_url")
                     
-                    mesajlar = []
-                    if apk_url:
-                        telefona_ozel_mesaj_gonder({"type": "apk_guncelleme", "url": apk_url})
-                        mesajlar.append(f"Android APK güncellemesi ({tag}) bulundu ve bağlı garsonlara yollanıyor.")
-                    
-                    if exe_url:
-                        mesajlar.append(f"Yeni Kasa EXE sürümü ({tag}) bulundu.")
-                    
-                    if mesajlar:
-                        if exe_url:
-                            cevap = messagebox.askyesno("Güncelleme", "\\n".join(mesajlar) + "\\n\\nKasa uygulamasının yeni sürümünü tarayıcıda indirmek ister misiniz?")
-                            if cevap: webbrowser.open(exe_url)
-                        else:
-                            messagebox.showinfo("Güncelleme", "\\n".join(mesajlar))
+                    if apk_url or exe_url:
+                        def arayuz_sor():
+                            panel = ctk.CTkToplevel(self)
+                            panel.title("Guncelleme Yoneticisi")
+                            w, h = 450, 320
+                            x = (self.winfo_screenwidth() - w) // 2
+                            y = (self.winfo_screenheight() - h) // 2
+                            panel.geometry(f"{w}x{h}+{x}+{y}")
+                            panel.attributes("-topmost", True)
+                            panel.grab_set()
+                            
+                            ctk.CTkLabel(panel, text=f"Yeni Versiyon Bulundu: {tag}", font=("Arial", 22, "bold"), text_color="#4CAF50").pack(pady=20)
+                            
+                            def exe_indir():
+                                import webbrowser
+                                if exe_url: webbrowser.open(exe_url)
+                            
+                            def mobile_yolla():
+                                if apk_url:
+                                    try: telefona_ozel_mesaj_gonder({"type": "apk_guncelleme", "url": apk_url})
+                                    except: pass
+                                    messagebox.showinfo("Basarili", "Garsonlara indirme bildirimi gonderildi!")
+                            
+                            if exe_url:
+                                ctk.CTkButton(panel, text="PC Exe Indir (Tarayicida)", font=("Arial", 16, "bold"), command=exe_indir, height=45).pack(pady=10, padx=20, fill="x")
+                            if apk_url:
+                                ctk.CTkButton(panel, text="Garsonlara APK Gonder", font=("Arial", 16, "bold"), fg_color="#F44336", hover_color="#D32F2F", command=mobile_yolla, height=45).pack(pady=10, padx=20, fill="x")
+                                
+                            ctk.CTkButton(panel, text="Kapat", font=("Arial", 16), fg_color="#424242", hover_color="#616161", command=panel.destroy, height=40).pack(pady=15, padx=20, fill="x")
+                            
+                        self.after(0, arayuz_sor)
                     else:
-                        messagebox.showinfo("Güncelleme", f"En son yayınlanan sürüm ({tag}) için EXE veya APK dosyası bulunamadı.")
+                        self.after(0, lambda: messagebox.showinfo("Guncelleme", f"En son yayinlanan surum ({tag}) icin EXE veya APK dosyasi bulunamadi."))
                 else:
-                    messagebox.showerror("Hata", "Güncellemeler kontrol edilirken bir hata oluştu. İnternet bağlantınızı kontrol edin veya daha sonra tekrar deneyin.")
+                    self.after(0, lambda: messagebox.showerror("Hata", "Guncellemeler kontrol edilirken bir hata olustu."))
             except Exception as e:
-                messagebox.showerror("Hata", f"Bağlantı hatası: {e}")
+                self.after(0, lambda: messagebox.showerror("Hata", f"Baglanti hatasi: {e}"))
         threading.Thread(target=islem, daemon=True).start()
+
     def arayuzu_goster_tetikleyici(self): self.after(0, self.arayuzu_goster_veya_gizle)
     def arayuzu_goster_veya_gizle(self):
         if self.winfo_viewable(): self.withdraw()
