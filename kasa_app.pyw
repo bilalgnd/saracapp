@@ -438,11 +438,36 @@ class KasaSistemi(ctk.CTk):
         self.after(2000, self.isik_kontrol_dongusu)
 
     def yazici_ayari_penceresi(self):
-        popup = ctk.CTkToplevel(self); popup.title("Yazıcı Seçimi"); popup.geometry(f"500x250"); popup.attributes("-topmost", True); popup.grab_set()
-        ctk.CTkLabel(popup, text="Windows Yazıcı Adını Girin", font=("Arial", 20, "bold")).pack(pady=20)
-        yazici_girdi = ctk.CTkEntry(popup, font=("Arial", 20), width=350, height=50); yazici_girdi.insert(0, SISTEM_AYARLARI.get("YAZICI_ADI", "")); yazici_girdi.pack(pady=10)
-        def kaydet(): SISTEM_AYARLARI["YAZICI_ADI"] = yazici_girdi.get().strip(); json_kaydet(AYAR_DOSYASI, SISTEM_AYARLARI); messagebox.showinfo("Başarılı", "Kaydedildi"); popup.destroy()
-        ctk.CTkButton(popup, text="Kaydet", fg_color="#4CAF50", font=("Arial", 18, "bold"), height=50, command=kaydet).pack(pady=10)
+        popup = ctk.CTkToplevel(self)
+        popup.title("Yazici Secimi")
+        popup.geometry("500x300")
+        popup.attributes("-topmost", True)
+        popup.grab_set()
+        
+        ctk.CTkLabel(popup, text="Windows Yazici Secin", font=("Arial", 20, "bold")).pack(pady=20)
+        
+        try:
+            import win32print
+            printers = [printer[2] for printer in win32print.EnumPrinters(win32print.PRINTER_ENUM_LOCAL | win32print.PRINTER_ENUM_CONNECTIONS)]
+        except Exception:
+            printers = []
+            
+        if not printers: printers = ["Yazici Bulunamadi"]
+
+        secili_yazici = ctk.StringVar(value=SISTEM_AYARLARI.get("YAZICI_ADI", printers[0] if printers else ""))
+        
+        yazici_menu = ctk.CTkOptionMenu(popup, values=printers, variable=secili_yazici, font=("Arial", 18), width=400, height=50)
+        yazici_menu.pack(pady=10)
+        
+        def kaydet(): 
+            val = secili_yazici.get().strip()
+            if val and val != "Yazici Bulunamadi":
+                SISTEM_AYARLARI["YAZICI_ADI"] = val
+                json_kaydet(AYAR_DOSYASI, SISTEM_AYARLARI)
+                messagebox.showinfo("Basarili", "Yazici Kaydedildi!")
+            popup.destroy()
+            
+        ctk.CTkButton(popup, text="Kaydet", fg_color="#4CAF50", font=("Arial", 18, "bold"), height=50, command=kaydet).pack(pady=20)
 
     def masalari_diske_kaydet_ve_yay(self):
         json_kaydet(MASALAR_DOSYASI, self.aktif_siparisler); telefona_guncelleme_gonder()
