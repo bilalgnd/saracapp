@@ -212,7 +212,7 @@ def menuyu_getir():
         "ekstralar": UCRETLI_EKSTRALAR
     })
 
-def sunucuyu_baslat(): flask_app.run(host='0.0.0.0', port=80, debug=False, use_reloader=False)
+def sunucuyu_baslat(): flask_app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
 
 class KasaSistemi(ctk.CTk):
     def __init__(self):

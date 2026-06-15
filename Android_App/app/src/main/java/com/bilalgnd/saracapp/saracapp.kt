@@ -132,7 +132,10 @@ class HafizaYoneticisi(context: Context) {
     private val defter = context.getSharedPreferences("SaracogluDefteri", Context.MODE_PRIVATE)
     private val gson = Gson()
 
-    fun kasaIpKaydet(ip: String) = defter.edit().putString("KASA_IP", ip).apply()
+    fun kasaIpKaydet(ip: String) {
+        val finalIp = if (ip.isNotBlank() && !ip.contains(":")) "$ip:5000" else ip
+        defter.edit().putString("KASA_IP", finalIp).apply()
+    }
     fun kasaIpOku(): String = defter.getString("KASA_IP", "") ?: ""
 
     fun garsonRengiKaydet(renk: String) = defter.edit().putString("GARSON_RENGI", renk).apply()
@@ -447,7 +450,7 @@ fun AnaEkran() {
             AlertDialog(onDismissRequest = { kasaAyarPenceresiAcik = false }, containerColor = Color(0xFF242424), title = { Text("⚙️ Ayarlar", color = Color.White, fontSize = 22.sp) },
                 text = {
                     Column {
-                        OutlinedTextField(value = ipGirdisi, onValueChange = { ipGirdisi = it }, label = { Text("Kasa IP Adresi", color = Color.Gray) }, textStyle = androidx.compose.ui.text.TextStyle(color = Color.White, fontSize = 18.sp), singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
+                        OutlinedTextField(value = ipGirdisi, onValueChange = { ipGirdisi = it }, label = { Text("Kasa IP Adresi", color = Color.Gray) }, textStyle = androidx.compose.ui.text.TextStyle(color = Color.White, fontSize = 18.sp), singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri))
                         Spacer(Modifier.height(16.dp))
                         Text("Garson Rengi", color = Color.White, fontSize = 16.sp)
                         @OptIn(ExperimentalLayoutApi::class)
