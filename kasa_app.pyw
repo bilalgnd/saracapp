@@ -245,19 +245,6 @@ class KasaSistemi(ctk.CTk):
         keyboard.add_hotkey('ctrl+alt+s', self.arayuzu_goster_tetikleyici)
 
         threading.Thread(target=sunucuyu_baslat, daemon=True).start()
-        
-    def pc_bildirim_goster(self, baslik, mesaj):
-        toast = ctk.CTkToplevel(self)
-        toast.overrideredirect(True)
-        toast.attributes("-topmost", True)
-        toast.configure(fg_color="#2E2E2E")
-        w, h = 350, 90
-        x = self.winfo_screenwidth() - w - 20
-        y = self.winfo_screenheight() - h - 60
-        toast.geometry(f"{w}x{h}+{x}+{y}")
-        ctk.CTkLabel(toast, text=baslik, font=("Arial", 16, "bold"), text_color="#4CAF50").pack(pady=(10,5))
-        ctk.CTkLabel(toast, text=mesaj, font=("Arial", 14), text_color="white").pack(pady=(0,10))
-        self.after(3000, toast.destroy)
 
         self.menu_icecekler = menuyu_guncelle(baslangic_menu_icecekler)
         icecek_baslik = [{"ad": "🥤 İÇECEKLER", "is_header": True}]
@@ -357,6 +344,19 @@ class KasaSistemi(ctk.CTk):
         self.sekme_degistir(self.menu_et, 1)
         self.sepet_guncelle()
         self.isik_kontrol_dongusu()
+
+    def pc_bildirim_goster(self, baslik, mesaj):
+        toast = ctk.CTkToplevel(self)
+        toast.overrideredirect(True)
+        toast.attributes("-topmost", True)
+        toast.configure(fg_color="#2E2E2E")
+        w, h = 350, 90
+        x = self.winfo_screenwidth() - w - 20
+        y = self.winfo_screenheight() - h - 60
+        toast.geometry(f"{w}x{h}+{x}+{y}")
+        ctk.CTkLabel(toast, text=baslik, font=("Arial", 16, "bold"), text_color="#4CAF50").pack(pady=(10,5))
+        ctk.CTkLabel(toast, text=mesaj, font=("Arial", 14), text_color="white").pack(pady=(0,10))
+        self.after(3000, toast.destroy)
 
     def arka_plana_gizle(self): self.withdraw()
     def sistemi_tamamen_kapat(self): os._exit(0)
