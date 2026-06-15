@@ -459,15 +459,20 @@ class KasaSistemi(ctk.CTk):
         yazici_menu = ctk.CTkOptionMenu(popup, values=printers, variable=secili_yazici, font=("Arial", 18), width=400, height=50)
         yazici_menu.pack(pady=10)
         
+        durum_lbl = ctk.CTkLabel(popup, text="", font=("Arial", 16, "bold"), text_color="#FFEB3B")
+        
         def kaydet(): 
             val = secili_yazici.get().strip()
             if val and val != "Yazici Bulunamadi":
                 SISTEM_AYARLARI["YAZICI_ADI"] = val
                 json_kaydet(AYAR_DOSYASI, SISTEM_AYARLARI)
-                messagebox.showinfo("Basarili", "Yazici Kaydedildi!")
-            popup.destroy()
+                durum_lbl.configure(text="Yazici Başarıyla Kaydedildi!")
+                popup.after(1500, popup.destroy)
+            else:
+                popup.destroy()
             
-        ctk.CTkButton(popup, text="Kaydet", fg_color="#4CAF50", font=("Arial", 18, "bold"), height=50, command=kaydet).pack(pady=20)
+        ctk.CTkButton(popup, text="Kaydet", fg_color="#4CAF50", font=("Arial", 18, "bold"), height=50, command=kaydet).pack(pady=10)
+        durum_lbl.pack(pady=5)
 
     def masalari_diske_kaydet_ve_yay(self):
         json_kaydet(MASALAR_DOSYASI, self.aktif_siparisler); telefona_guncelleme_gonder()
