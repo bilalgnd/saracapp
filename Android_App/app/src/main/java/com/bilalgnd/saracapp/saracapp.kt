@@ -251,7 +251,9 @@ fun AnaEkran() {
                                     }
                                 } else {
                                     val gelenListe: List<Adisyon> = Gson().fromJson(text, object : TypeToken<List<Adisyon>>() {}.type)
-                                    aktifSiparisler.clear(); aktifSiparisler.addAll(gelenListe); hafiza.aktifMasalariKaydet(gelenListe)
+                                    CoroutineScope(Dispatchers.Main).launch {
+                                        aktifSiparisler.clear(); aktifSiparisler.addAll(gelenListe); hafiza.aktifMasalariKaydet(gelenListe)
+                                    }
                                 }
                             } catch (e: Exception) {}
                         }
@@ -459,6 +461,8 @@ fun AnaEkran() {
                                 Box(modifier = Modifier.size(36.dp).background(Color(android.graphics.Color.parseColor(hex)), CircleShape).border(if (renkGirdisi == hex) 3.dp else 0.dp, Color.White, CircleShape).clickable { renkGirdisi = hex })
                             }
                         }
+                        Spacer(Modifier.height(24.dp))
+                        Text("v4.0.1 | Credits: bilalgnd", color = Color.DarkGray, fontSize = 12.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
                     }
                 },
                 confirmButton = { Button(onClick = { hafiza.kasaIpKaydet(ipGirdisi.trim()); hafiza.garsonRengiKaydet(renkGirdisi); kasaAyarPenceresiAcik = false }) { Text("Kaydet", fontSize = 18.sp) } },

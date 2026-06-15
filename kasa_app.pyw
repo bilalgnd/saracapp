@@ -220,6 +220,7 @@ def port_musait_mi(port):
         return s.connect_ex(('localhost', port)) != 0
 
 AKTIF_PORT = 5000
+MEVCUT_VERSIYON = "v4.0.1"
 for p in range(5000, 5010):
     if port_musait_mi(p):
         AKTIF_PORT = p
@@ -274,7 +275,7 @@ class KasaSistemi(ctk.CTk):
         tepe_kutu.pack(fill="x", padx=5, pady=5)
         self.baslik = ctk.CTkLabel(tepe_kutu, text="SARAÇOĞLU", font=("Arial", 28, "bold"), text_color="#FF9800")
         self.baslik.pack(side="left", padx=(5, 0))
-        ctk.CTkLabel(tepe_kutu, text="v3.0.3", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
+        ctk.CTkLabel(tepe_kutu, text="v4.0.1", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
 
         bilgi_kutu = ctk.CTkFrame(tepe_kutu, fg_color="#1E1E1E", corner_radius=10); bilgi_kutu.pack(side="left", padx=5)
         gosterilecek_ip = KASA_IP if AKTIF_PORT == 5000 else f"{KASA_IP}:{AKTIF_PORT}"
@@ -374,17 +375,26 @@ class KasaSistemi(ctk.CTk):
                         if a.get("name", "").endswith(".apk"): apk_url = a.get("browser_download_url")
                         if a.get("name", "").endswith(".exe"): exe_url = a.get("browser_download_url")
                     
-                    if apk_url or exe_url:
-                        def arayuz_sor():
-                            panel = ctk.CTkToplevel(self)
-                            panel.title("Guncelleme Yoneticisi")
-                            w, h = 450, 320
-                            x = (self.winfo_screenwidth() - w) // 2
-                            y = (self.winfo_screenheight() - h) // 2
-                            panel.geometry(f"{w}x{h}+{x}+{y}")
-                            panel.attributes("-topmost", True)
-                            panel.grab_set()
-                            
+                    def arayuz_sor():
+                        panel = ctk.CTkToplevel(self)
+                        panel.title("Guncelleme Yoneticisi")
+                        w, h = 450, 320
+                        x = (self.winfo_screenwidth() - w) // 2
+                        y = (self.winfo_screenheight() - h) // 2
+                        panel.geometry(f"{w}x{h}+{x}+{y}")
+                        panel.attributes("-topmost", True)
+                        panel.grab_set()
+                        
+                        if tag == "v4.0.1" or tag == "4.0.1":
+                            ctk.CTkLabel(panel, text=f"Versiyon Guncel ({tag})", font=("Arial", 22, "bold"), text_color="#2196F3").pack(pady=20)
+                            ctk.CTkLabel(panel, text="Sisteminiz zaten en guncel surumde.", font=("Arial", 16)).pack(pady=20)
+                            ctk.CTkButton(panel, text="Kapat", font=("Arial", 16), fg_color="#424242", hover_color="#616161", command=panel.destroy, height=40).pack(pady=15, padx=20, fill="x")
+                        else:
+                            if not apk_url and not exe_url:
+                                ctk.CTkLabel(panel, text=f"Versiyon Guncel", font=("Arial", 22, "bold"), text_color="#2196F3").pack(pady=20)
+                                ctk.CTkButton(panel, text="Kapat", font=("Arial", 16), fg_color="#424242", hover_color="#616161", command=panel.destroy, height=40).pack(pady=15, padx=20, fill="x")
+                                return
+                                
                             ctk.CTkLabel(panel, text=f"Yeni Versiyon Bulundu: {tag}", font=("Arial", 22, "bold"), text_color="#4CAF50").pack(pady=20)
                             
                             def exe_indir():
@@ -407,11 +417,7 @@ class KasaSistemi(ctk.CTk):
                                 
                             ctk.CTkButton(panel, text="Kapat", font=("Arial", 16), fg_color="#424242", hover_color="#616161", command=panel.destroy, height=40).pack(pady=5, padx=20, fill="x")
                             
-                        self.after(0, arayuz_sor)
-                    else:
-                        self.after(0, lambda: messagebox.showinfo("Guncelleme", f"En son yayinlanan surum ({tag}) icin EXE veya APK dosyasi bulunamadi."))
-                else:
-                    self.after(0, lambda: messagebox.showerror("Hata", "Guncellemeler kontrol edilirken bir hata olustu."))
+                    self.after(0, arayuz_sor)
             except Exception as e:
                 self.after(0, lambda: messagebox.showerror("Hata", f"Baglanti hatasi: {e}"))
         threading.Thread(target=islem, daemon=True).start()
