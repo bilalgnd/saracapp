@@ -346,6 +346,10 @@ class KasaSistemi(ctk.CTk):
         self.isik_kontrol_dongusu()
 
     def pc_bildirim_goster(self, baslik, mesaj):
+        try:
+            import winsound, threading
+            threading.Thread(target=lambda: winsound.Beep(1000, 300), daemon=True).start()
+        except: pass
         toast = ctk.CTkToplevel(self)
         toast.overrideredirect(True)
         toast.attributes("-topmost", True)
