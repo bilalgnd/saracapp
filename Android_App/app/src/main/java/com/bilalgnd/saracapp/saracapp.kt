@@ -693,6 +693,7 @@ fun AdisyonKarti(adisyon: Adisyon, tamamlandiClick: () -> Unit, kalemSilClick: (
                 if (isExpanded || adet == 1) {
                     Column(modifier = Modifier.fillMaxWidth().background(Color(0xFF1E1E1E), RoundedCornerShape(12.dp)).clip(RoundedCornerShape(12.dp))) {
                         kalemListesi.forEach { tekliKalem ->
+                            key(System.identityHashCode(tekliKalem)) {
                             val dismissState = rememberSwipeToDismissBoxState(confirmValueChange = { if (it == SwipeToDismissBoxValue.EndToStart) { kalemSilClick(tekliKalem); true } else false })
                             SwipeToDismissBox(state = dismissState, enableDismissFromStartToEnd = false, backgroundContent = { val color by animateColorAsState(if (dismissState.targetValue == SwipeToDismissBoxValue.EndToStart) Color.Red else Color.Transparent); Box(Modifier.fillMaxSize().background(color).padding(horizontal = 20.dp), contentAlignment = Alignment.CenterEnd) { Text("Sil", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp) } }) {
                                 Row(modifier = Modifier.fillMaxWidth().background(Color(0xFF1E1E1E)).padding(horizontal = 16.dp, vertical = 12.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
@@ -704,6 +705,7 @@ fun AdisyonKarti(adisyon: Adisyon, tamamlandiClick: () -> Unit, kalemSilClick: (
                                         Box(modifier = Modifier.size(36.dp).background(Color(0xFF421515), RoundedCornerShape(8.dp)).clickable { kalemSilClick(tekliKalem) }, contentAlignment = Alignment.Center) { Text("🗑️", fontSize = 16.sp) }
                                     }
                                 }
+                            }
                             }
                         }
                     }
