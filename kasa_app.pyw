@@ -233,11 +233,10 @@ class KasaSistemi(ctk.CTk):
         global kasa_arayuz_referansi
         kasa_arayuz_referansi = self
 
-        self.title("SARAÇOĞLU DÖNER - POS")
+        self.title("saracapp")
         ctk.set_appearance_mode("dark") 
         self.geometry("1400x800")
         self.minsize(1300, 700)
-        self.after(100, lambda: self.state('zoomed'))
         
         self.withdraw()
         self.protocol("WM_DELETE_WINDOW", self.arka_plana_gizle)
