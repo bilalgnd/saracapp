@@ -464,7 +464,18 @@ class KasaSistemi(ctk.CTk):
         kolon = max(1, self.mevcut_kolon_sayisi - 1)
         for i in range(kolon): self.icerik_frame.grid_columnconfigure(i, weight=1)
 
-        satir, sutun = 0, 0
+        ust_frame = ctk.CTkFrame(self.icerik_frame, fg_color="transparent")
+        ust_frame.grid(row=0, column=0, columnspan=kolon, sticky="ew", padx=12, pady=(12, 0))
+        
+        def tumunu_sil():
+            if messagebox.askyesno("Onay", "Tum acik masalari silmek istediginize emin misiniz?"):
+                self.aktif_siparisler.clear()
+                self.masalari_diske_kaydet_ve_yay()
+                self.acik_masalari_ciz()
+
+        ctk.CTkButton(ust_frame, text="🗑 Tümünü Sil", fg_color="#D32F2F", hover_color="#B71C1C", font=("Arial", 16, "bold"), command=tumunu_sil).pack(side="right")
+
+        satir, sutun = 1, 0
         for idx, adisyon in enumerate(self.aktif_siparisler):
             kart = ctk.CTkFrame(self.icerik_frame, fg_color="#1E1E1E", corner_radius=15, border_width=2, border_color="#333333", height=150)
             kart.grid(row=satir, column=sutun, padx=12, pady=12, sticky="nsew")
