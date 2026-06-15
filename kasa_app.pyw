@@ -422,8 +422,12 @@ class KasaSistemi(ctk.CTk):
                             ctk.CTkButton(panel, text="Kapat", font=("Arial", 16), fg_color="#424242", hover_color="#616161", command=panel.destroy, height=40).pack(pady=5, padx=20, fill="x")
                             
                     self.after(0, arayuz_sor)
+                else:
+                    err_msg = "GitHub API baglanti hatasi (Kod: " + str(response.status_code) + ")"
+                    self.after(0, lambda msg=err_msg: messagebox.showerror("Hata", msg))
             except Exception as e:
-                self.after(0, lambda: messagebox.showerror("Hata", f"Baglanti hatasi: {e}"))
+                err_text = str(e)
+                self.after(0, lambda msg=err_text: messagebox.showerror("Hata", f"Baglanti hatasi: {msg}"))
         threading.Thread(target=islem, daemon=True).start()
 
     def arayuzu_goster_tetikleyici(self): self.after(0, self.arayuzu_goster_veya_gizle)
