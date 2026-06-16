@@ -495,8 +495,8 @@ fun UrunKarti(urun: Urun, onClick: () -> Unit, onLongClick: () -> Unit) {
         adLc.contains("tombik") -> Color(0xFFFF9800)
         adLc.contains("eski usul") -> Color(0xFFF44336)
         adLc.contains("dürüm") -> Color(0xFFFFEB3B)
-        adLc.contains("et porsiyon") || adLc.contains("beyti") || adLc.contains("iskender") || (adLc.contains("pilav üstü") && !adLc.contains("tavuk")) -> Color(0xFF8B0000)
-        adLc.contains("tavuk hatay") -> Color(0xFFF5DEB3)
+        adLc.contains("et porsiyon") || adLc.contains("beyti") || adLc.contains("iskender") || adLc.contains("ıskender") || (adLc.contains("pilav üstü") && !adLc.contains("tavuk")) -> Color(0xFF8B0000)
+        adLc.contains("hatay") -> Color(0xFFF5DEB3)
         adLc.contains("biga") -> Color(0xFF1976D2)
         adLc.contains("tavuk porsiyon") || (adLc.contains("pilav üstü") && adLc.contains("tavuk")) -> Color(0xFFFF5722)
         else -> Color(0xFF242424)
@@ -566,11 +566,14 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Text("Ücretli Ekstralar", fontWeight = FontWeight.Bold, color = Color(0xFFFFD54F), fontSize = 15.sp)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(top = 8.dp)) {
-                    ucretliEkstralar.forEach { (isim, fiyat) -> FilterChip(selected = seciliUcretliEkstralar[isim] == true, onClick = { seciliUcretliEkstralar[isim] = !(seciliUcretliEkstralar[isim] ?: false) }, label = { Text("$isim (+$fiyat₺)", fontSize = 15.sp, modifier = Modifier.padding(6.dp)) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFFFD54F), selectedLabelColor = Color.Black)) }
+                val digerUcretliler = ucretliEkstralar.filterKeys { !it.contains("Cheddar") && !it.contains("Kasar") && !it.contains("Kaşar") }
+                if (digerUcretliler.isNotEmpty()) {
+                    Text("Ücretli Ekstralar", fontWeight = FontWeight.Bold, color = Color(0xFFFFD54F), fontSize = 15.sp)
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(top = 8.dp)) {
+                        digerUcretliler.forEach { (isim, fiyat) -> FilterChip(selected = seciliUcretliEkstralar[isim] == true, onClick = { seciliUcretliEkstralar[isim] = !(seciliUcretliEkstralar[isim] ?: false) }, label = { Text("$isim (+$fiyat₺)", fontSize = 15.sp, modifier = Modifier.padding(6.dp)) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFFFD54F), selectedLabelColor = Color.Black)) }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
-                Spacer(modifier = Modifier.height(8.dp))
 
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Column(modifier = Modifier.weight(1f)) {

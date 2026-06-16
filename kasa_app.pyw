@@ -94,15 +94,6 @@ baslangic_menu_icecekler = [
     {"ad": "Cola Zero", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
     {"ad": "Şalgam", "secenekler": [{"gr": "Standart", "fiyat": 50}]},
     {"ad": "Soda", "secenekler": [{"gr": "Standart", "fiyat": 25}]}
-]},
-    {"ad": "Sprite", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
-    {"ad": "Fanta", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
-    {"ad": "Şişe Kola", "secenekler": [{"gr": "Standart", "fiyat": 60}]},
-    {"ad": "Açık Ayran", "secenekler": [{"gr": "Standart", "fiyat": 50}]},
-    {"ad": "Şalgam", "secenekler": [{"gr": "Standart", "fiyat": 50}]},
-    {"ad": "Ayran", "secenekler": [{"gr": "Standart", "fiyat": 30}]},
-    {"ad": "Soda", "secenekler": [{"gr": "Standart", "fiyat": 25}]},
-    {"ad": "Su", "secenekler": [{"gr": "Standart", "fiyat": 20}]}
 ]
 UCRETLI_EKSTRALAR = {"Cheddar": 70, "Kaşarlı": 70}
 
@@ -244,7 +235,7 @@ class KasaSistemi(ctk.CTk):
         global kasa_arayuz_referansi
         kasa_arayuz_referansi = self
 
-        self.title("saracapp")
+        self.title("SARAÇOĞLU DÖNER v4.0.5")
         ctk.set_appearance_mode("dark") 
         self.geometry("1400x800")
         self.minsize(1300, 700)
@@ -549,11 +540,15 @@ class KasaSistemi(ctk.CTk):
                 satir += 1
                 continue
 
-            ad_kucuk = urun['ad'].lower()
+            ad_kucuk = urun['ad'].replace('İ','i').replace('I','ı').lower()
             if "tombik" in ad_kucuk: bg_renk = "#FF9800"; txt_renk = "black"; hov_renk = "#F57C00"
             elif "eski usul" in ad_kucuk: bg_renk = "#F44336"; txt_renk = "white"; hov_renk = "#D32F2F"
-            elif "dürüm" in ad_kucuk: bg_renk = "#FFEB3B"; txt_renk = "black"; hov_renk = "#FBC02D"
-            elif any(x in ad_kucuk for x in ["kola", "ayran", "su", "soda", "sprite", "fanta", "şalgam"]): bg_renk = "#0277BD"; txt_renk = "white"; hov_renk = "#01579B"
+            elif "d" in ad_kucuk and "r" in ad_kucuk and "m" in ad_kucuk and len(ad_kucuk) < 7: bg_renk = "#FFEB3B"; txt_renk = "black"; hov_renk = "#FBC02D"
+            elif any(x in ad_kucuk for x in ["et porsiyon", "beyti", "iskender", "ıskender"]) or ("pilav üstü" in ad_kucuk and "tavuk" not in ad_kucuk): bg_renk = "#8B0000"; txt_renk = "white"; hov_renk = "#B71C1C"
+            elif "hatay" in ad_kucuk: bg_renk = "#F5DEB3"; txt_renk = "black"; hov_renk = "#D2B48C"
+            elif "biga" in ad_kucuk: bg_renk = "#1976D2"; txt_renk = "white"; hov_renk = "#1565C0"
+            elif "tavuk porsiyon" in ad_kucuk or ("pilav üstü" in ad_kucuk and "tavuk" in ad_kucuk): bg_renk = "#FFFF5722"; txt_renk = "black"; hov_renk = "#E64A19"
+            elif any(x in ad_kucuk for x in ["kola", "ayran", "su", "soda", "sprite", "fanta", "salgam", "zero"]): bg_renk = "#0277BD"; txt_renk = "white"; hov_renk = "#01579B"
             else: bg_renk = "#37474F" if self.ayarlar_modu else "#1E1E1E"; txt_renk = "white"; hov_renk = "#455A64" if self.ayarlar_modu else "#333333"
 
             buton_yazisi = f"{urun['ad']}\n\n✏️ Fiyat" if self.ayarlar_modu else f"{urun['ad']}\n\n{urun['secenekler'][0]['fiyat']} ₺"
