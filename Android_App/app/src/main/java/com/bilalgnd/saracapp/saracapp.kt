@@ -543,8 +543,8 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
             }
             Spacer(modifier = Modifier.height(12.dp))
             Text("Seçim / Gramaj", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(top = 8.dp)) {
-                urun.secenekler.forEach { sec -> FilterChip(selected = (seciliGramaj == sec), onClick = { seciliGramaj = sec }, label = { Text(if(sec.gramaj == "Standart") "${sec.fiyat} ₺" else "${sec.gramaj} (${sec.fiyat}₺)", fontSize = 15.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(6.dp)) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 4.dp)) {
+                urun.secenekler.forEach { sec -> FilterChip(selected = (seciliGramaj == sec), onClick = { seciliGramaj = sec }, label = { Text(if(sec.gramaj == "Standart") " ₺" else " (₺)", fontSize = 13.sp, fontWeight = FontWeight.Bold) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
             }
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -586,13 +586,20 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text("Hızlı İçecek Ekle", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
-                FlowRow(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                val currentViewConfig = androidx.compose.ui.platform.LocalViewConfiguration.current
+                val fastLongPressConfig = androidx.compose.runtime.remember(currentViewConfig) {
+                    object : androidx.compose.ui.platform.ViewConfiguration by currentViewConfig {
+                        override val longPressTimeoutMillis: Long = 200L
+                    }
+                }
+                androidx.compose.runtime.CompositionLocalProvider(androidx.compose.ui.platform.LocalViewConfiguration provides fastLongPressConfig) {
+                FlowRow(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = 3) {
                     icecekMenusu.forEach { ic ->
                         val miktar = if (seciliIcecekler[ic.ad] == true) (icecekAdetleri[ic.ad] ?: 1) else 0
                         Box(contentAlignment = Alignment.TopEnd) {
                             Box(
                                 modifier = Modifier
-                                    .size(85.dp, 55.dp)
+                                    .height(55.dp).width(110.dp)
                                     .background(if (miktar > 0) Color(0xFF388E3C) else Color(0xFF242424), RoundedCornerShape(12.dp))
                                     .combinedClickable(
                                         onClick = { 
@@ -633,10 +640,14 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                                 }
                             }
                         }
-                    }
-                }
-            }
 
+                            }
+
+                        }
+
+                        }
+
+                        }
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(value = siparisNotu, onValueChange = { siparisNotu = it }, label = { Text("Özel Sipariş Notu (Örn: Çok pişsin)", fontSize = 15.sp) }, modifier = Modifier.fillMaxWidth(), textStyle = androidx.compose.ui.text.TextStyle(fontSize = 20.sp))
             if (guncelMasaAdi == null) {
