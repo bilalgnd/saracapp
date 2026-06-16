@@ -34,6 +34,7 @@ let currentDrinks = {};
 
 // State for chips
 let seciliNotlar = {};
+let seciliEklenecekler = {};
 let seciliUcretliEkstralar = {};
 let seciliUcretsizEkstralar = {};
 let seciliOdemeler = {};
@@ -164,7 +165,7 @@ function renderChipGroup(containerId, items, stateObj, isNegative, colorClass, o
             if (n === "Ketçap") label = "Ketçapsız";
             if (n === "Mayonez") label = "Mayonezsiz";
             if (n === "Turşu") label = "Turşusuz";
-        } else if (containerId === 'icerikCikarContainer') {
+        } else if (containerId === 'icerikEkleContainer') {
             let n = label;
             label = n + "lı";
             if (n === "Soğan") label = "Soğanlı";
@@ -182,6 +183,20 @@ function renderChipGroup(containerId, items, stateObj, isNegative, colorClass, o
             stateObj[key] = !stateObj[key];
             if (stateObj[key]) chip.classList.add('selected');
             else chip.classList.remove('selected');
+            
+            // Mutually exclusive logic for icerikCikar and icerikEkle
+            if (containerId === 'icerikCikarContainer' && stateObj[key]) {
+                if (seciliEklenecekler[key]) {
+                    seciliEklenecekler[key] = false;
+                    renderChipGroup('icerikEkleContainer', malzemeler_listesi, seciliEklenecekler, false, 'chip-yellow');
+                }
+            } else if (containerId === 'icerikEkleContainer' && stateObj[key]) {
+                if (seciliNotlar[key]) {
+                    seciliNotlar[key] = false;
+                    renderChipGroup('icerikCikarContainer', malzemeler_listesi, seciliNotlar, true, 'chip-red');
+                }
+            }
+            
             if (onUpdate) onUpdate();
         };
         container.appendChild(chip);
@@ -223,6 +238,8 @@ function openProductSheet(item, isDrink) {
     if (!isDrink) {
         icerikCikarSec.classList.remove('hidden');
         renderChipGroup('icerikCikarContainer', malzemeler_listesi, seciliNotlar, true, 'chip-red');
+        seciliEklenecekler = {};
+        renderChipGroup('icerikEkleContainer', malzemeler_listesi, seciliEklenecekler, false, 'chip-yellow');
         
         const ucretliArr = Object.keys(menuData.ekstralar || {}).map(k => ({key: k, label: `${k} (+${menuData.ekstralar[k]}₺)`}));
         renderChipGroup('ucretliEkstralarContainer', ucretliArr, seciliUcretliEkstralar, false, 'chip-yellow', updateSheetPrice);
@@ -328,6 +345,18 @@ function addProductToDraft() {
             if (k === "Ketçap") label = "Ketçapsız";
             if (k === "Mayonez") label = "Mayonezsiz";
             if (k === "Turşu") label = "Turşusuz";
+            tumNotlar.push(label); 
+        } 
+    });
+    Object.keys(seciliEklenecekler).forEach(k => { 
+        if(seciliEklenecekler[k]) {
+            let label = k + "lı";
+            if (k === "Soğan") label = "Soğanlı";
+            if (k === "Domates") label = "Domatesli";
+            if (k === "Patates") label = "Patatesli";
+            if (k === "Ketçap") label = "Ketçaplı";
+            if (k === "Mayonez") label = "Mayonezli";
+            if (k === "Turşu") label = "Turşulu";
             tumNotlar.push(label); 
         } 
     });
