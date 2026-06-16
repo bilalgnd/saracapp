@@ -235,7 +235,7 @@ class KasaSistemi(ctk.CTk):
         global kasa_arayuz_referansi
         kasa_arayuz_referansi = self
 
-        self.title("SARACOGLU DONER v4.0.5")
+        self.title("SARACOGLU DONER v4.0.6")
         ctk.set_appearance_mode("dark") 
         self.geometry("1400x800")
         self.minsize(1300, 700)
