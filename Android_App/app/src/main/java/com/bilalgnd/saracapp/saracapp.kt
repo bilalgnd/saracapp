@@ -301,10 +301,10 @@ fun AnaEkran() {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                         Column(modifier = Modifier.weight(1f).padding(end = 8.dp)) {
                             Text("Masa: $aktifMasaAdi", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                            Text("${taslakKalemler.size} Ürün - ${taslakKalemler.sumOf { it.fiyat }} ₺", color = Color.White, fontSize = 16.sp)
+                            Text("${taslakKalemler.size} Ürün - ${taslakKalemler.sumOf { it.fiyat }} ₺", color = Color.White, fontSize = 13.sp)
                         }
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            TextButton(onClick = { aktifMasaAdi = null; taslakKalemler.clear(); duzenlenenAdisyonIsmi = null }) { Text("İptal", color = Color.White, fontSize = 18.sp) }
+                            TextButton(onClick = { aktifMasaAdi = null; taslakKalemler.clear(); duzenlenenAdisyonIsmi = null }) { Text("İptal", color = Color.White, fontSize = 15.sp) }
                             Spacer(modifier = Modifier.width(12.dp))
                             Button(onClick = {
                                 if (taslakKalemler.isNotEmpty()) {
@@ -326,7 +326,7 @@ fun AnaEkran() {
                                     }
                                 }
                                 aktifMasaAdi = null; taslakKalemler.clear(); duzenlenenAdisyonIsmi = null
-                            }, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)), modifier = Modifier.height(56.dp)) { Text(if(kasaOnline) "Siparişi Gönder" else "Telefona Kaydet", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp) }
+                            }, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)), modifier = Modifier.height(56.dp)) { Text(if(kasaOnline) "Siparişi Gönder" else "Telefona Kaydet", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp) }
                         }
                     }
                 }
@@ -402,7 +402,7 @@ fun AnaEkran() {
             AlertDialog(
                 onDismissRequest = { notDuzenlenecekKalem = null }, containerColor = Color(0xFF242424),
                 title = { Text("Not Düzenle", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold) },
-                text = { OutlinedTextField(value = yeniNot, onValueChange = { yeniNot = it }, label = { Text("Örn: Çok pişsin") }, modifier = Modifier.fillMaxWidth(), textStyle = androidx.compose.ui.text.TextStyle(fontSize = 18.sp)) },
+                text = { OutlinedTextField(value = yeniNot, onValueChange = { yeniNot = it }, label = { Text("Örn: Çok pişsin") }, modifier = Modifier.fillMaxWidth(), textStyle = androidx.compose.ui.text.TextStyle(fontSize = 15.sp)) },
                 confirmButton = {
                     Button(onClick = {
                         val adisyonIndex = aktifSiparisler.indexOfFirst { it.musteriAdi == adisyon.musteriAdi }
@@ -417,9 +417,9 @@ fun AnaEkran() {
                             }
                         }
                         notDuzenlenecekKalem = null
-                    }) { Text("Kaydet", fontSize = 18.sp) }
+                    }) { Text("Kaydet", fontSize = 15.sp) }
                 },
-                dismissButton = { TextButton(onClick = { notDuzenlenecekKalem = null }) { Text("İptal", fontSize = 18.sp, color = Color.LightGray) } }
+                dismissButton = { TextButton(onClick = { notDuzenlenecekKalem = null }) { Text("İptal", fontSize = 15.sp, color = Color.LightGray) } }
             )
         }
 
@@ -428,19 +428,19 @@ fun AnaEkran() {
                 onDismissRequest = { },
                 containerColor = Color(0xFF242424),
                 title = { Text("📢 Yeni Güncelleme!", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold) },
-                text = { Text("Kasa tarafından yeni bir Android sürümü yayınlandı. İndirip kurmak ister misiniz?", color = Color.LightGray, fontSize = 18.sp) },
+                text = { Text("Kasa tarafından yeni bir Android sürümü yayınlandı. İndirip kurmak ister misiniz?", color = Color.LightGray, fontSize = 15.sp) },
                 confirmButton = {
                     Button(onClick = {
                         val i = Intent(Intent.ACTION_VIEW, Uri.parse(guncellemeUrl))
                         context.startActivity(i)
                         guncellemeUrl = null
                     }, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))) {
-                        Text("İndir", fontSize = 18.sp, color = Color.White, fontWeight = FontWeight.Bold)
+                        Text("İndir", fontSize = 15.sp, color = Color.White, fontWeight = FontWeight.Bold)
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { guncellemeUrl = null }) {
-                        Text("Daha Sonra", fontSize = 18.sp, color = Color.Gray)
+                        Text("Daha Sonra", fontSize = 15.sp, color = Color.Gray)
                     }
                 }
             )
@@ -452,9 +452,9 @@ fun AnaEkran() {
             AlertDialog(onDismissRequest = { kasaAyarPenceresiAcik = false }, containerColor = Color(0xFF242424), title = { Text("⚙️ Ayarlar", color = Color.White, fontSize = 22.sp) },
                 text = {
                     Column {
-                        OutlinedTextField(value = ipGirdisi, onValueChange = { ipGirdisi = it }, label = { Text("Kasa IP Adresi", color = Color.Gray) }, textStyle = androidx.compose.ui.text.TextStyle(color = Color.White, fontSize = 18.sp), singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri))
+                        OutlinedTextField(value = ipGirdisi, onValueChange = { ipGirdisi = it }, label = { Text("Kasa IP Adresi", color = Color.Gray) }, textStyle = androidx.compose.ui.text.TextStyle(color = Color.White, fontSize = 15.sp), singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri))
                         Spacer(Modifier.height(16.dp))
-                        Text("Garson Rengi", color = Color.White, fontSize = 16.sp)
+                        Text("Garson Rengi", color = Color.White, fontSize = 13.sp)
                         @OptIn(ExperimentalLayoutApi::class)
                         FlowRow(modifier = Modifier.padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             listOf("#F44336", "#9C27B0", "#2196F3", "#4CAF50", "#FFC107", "#FF9800", "#795548", "#FFFFFF").forEach { hex ->
@@ -465,8 +465,8 @@ fun AnaEkran() {
                         Text("v4.0.1 | Credits: bilalgnd", color = Color.DarkGray, fontSize = 12.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
                     }
                 },
-                confirmButton = { Button(onClick = { hafiza.kasaIpKaydet(ipGirdisi.trim()); hafiza.garsonRengiKaydet(renkGirdisi); kasaAyarPenceresiAcik = false }) { Text("Kaydet", fontSize = 18.sp) } },
-                dismissButton = { TextButton(onClick = { kasaAyarPenceresiAcik = false }) { Text("İptal", fontSize = 18.sp, color = Color.Gray) } }
+                confirmButton = { Button(onClick = { hafiza.kasaIpKaydet(ipGirdisi.trim()); hafiza.garsonRengiKaydet(renkGirdisi); kasaAyarPenceresiAcik = false }) { Text("Kaydet", fontSize = 15.sp) } },
+                dismissButton = { TextButton(onClick = { kasaAyarPenceresiAcik = false }) { Text("İptal", fontSize = 15.sp, color = Color.Gray) } }
             )
         }
 
@@ -503,7 +503,7 @@ fun UrunKarti(urun: Urun, onClick: () -> Unit, onLongClick: () -> Unit) {
         Column(modifier = Modifier.padding(12.dp).fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = urun.ad, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = yaziRengi, textAlign = TextAlign.Center, maxLines = 2, lineHeight = 24.sp, overflow = TextOverflow.Ellipsis)
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "${urun.secenekler.first().fiyat} ₺", fontSize = 18.sp, color = fiyatRengi, fontWeight = FontWeight.ExtraBold)
+            Text(text = "${urun.secenekler.first().fiyat} ₺", fontSize = 15.sp, color = fiyatRengi, fontWeight = FontWeight.ExtraBold)
         }
     }
 }
@@ -541,46 +541,58 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                     IconButton(onClick = { adet++; haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove) }, modifier = Modifier.size(40.dp)) { Text("+", color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold) }
                 }
             }
-            Spacer(modifier = Modifier.height(24.dp))
-            Text("Seçim / Gramaj", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 18.sp)
+            Spacer(modifier = Modifier.height(12.dp))
+            Text("Seçim / Gramaj", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(top = 8.dp)) {
-                urun.secenekler.forEach { sec -> FilterChip(selected = (seciliGramaj == sec), onClick = { seciliGramaj = sec }, label = { Text(if(sec.gramaj == "Standart") "${sec.fiyat} ₺" else "${sec.gramaj} (${sec.fiyat}₺)", fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(6.dp)) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
+                urun.secenekler.forEach { sec -> FilterChip(selected = (seciliGramaj == sec), onClick = { seciliGramaj = sec }, label = { Text(if(sec.gramaj == "Standart") "${sec.fiyat} ₺" else "${sec.gramaj} (${sec.fiyat}₺)", fontSize = 15.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(6.dp)) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             if (!isIcecek) {
-                Text("İçerik Çıkar", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 18.sp)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
-                    malzemeler_listesi.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { seciliNotlar[malz] = !(seciliNotlar[malz] ?: false) }, label = { Text("$malz Yok", fontSize = 16.sp, modifier = Modifier.padding(4.dp)) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFE53935), selectedLabelColor = Color.White)) }
+                                Text("İçerik", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 4.dp)) {
+                    val cikar = listOf("Soğan Yok", "Domates Yok", "Patates Yok", "Ketçap Yok", "Mayonez Yok", "Turşu Yok")
+                    val ekle = listOf("Soğanlı", "Domatesli", "Patatesli", "Ketçaplı", "Mayonezli", "Turşulu")
+                    cikar.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { seciliNotlar[malz] = !(seciliNotlar[malz] ?: false) }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFE53935), selectedLabelColor = Color.White)) }
+                    ekle.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { seciliNotlar[malz] = !(seciliNotlar[malz] ?: false) }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                Text("Ücretli Ekstralar", fontWeight = FontWeight.Bold, color = Color(0xFFFFD54F), fontSize = 18.sp)
+                Text("Ücretli Ekstralar", fontWeight = FontWeight.Bold, color = Color(0xFFFFD54F), fontSize = 15.sp)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(top = 8.dp)) {
-                    ucretliEkstralar.forEach { (isim, fiyat) -> FilterChip(selected = seciliUcretliEkstralar[isim] == true, onClick = { seciliUcretliEkstralar[isim] = !(seciliUcretliEkstralar[isim] ?: false) }, label = { Text("$isim (+$fiyat₺)", fontSize = 18.sp, modifier = Modifier.padding(6.dp)) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFFFD54F), selectedLabelColor = Color.Black)) }
+                    ucretliEkstralar.forEach { (isim, fiyat) -> FilterChip(selected = seciliUcretliEkstralar[isim] == true, onClick = { seciliUcretliEkstralar[isim] = !(seciliUcretliEkstralar[isim] ?: false) }, label = { Text("$isim (+$fiyat₺)", fontSize = 15.sp, modifier = Modifier.padding(6.dp)) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFFFD54F), selectedLabelColor = Color.Black)) }
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Notlar", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 18.sp)
-                        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) { ucretsiz_ekstra_listesi.forEach { eks -> FilterChip(selected = seciliUcretsizEkstralar[eks] == true, onClick = { seciliUcretsizEkstralar[eks] = !(seciliUcretsizEkstralar[eks] ?: false) }, label = { Text(eks, fontSize = 16.sp) }) } }
+                        Text("Notlar", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+                        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) { ucretsiz_ekstra_listesi.forEach { eks -> FilterChip(selected = seciliUcretsizEkstralar[eks] == true, onClick = { seciliUcretsizEkstralar[eks] = !(seciliUcretsizEkstralar[eks] ?: false) }, label = { Text(eks, fontSize = 13.sp) }) } }
                     }
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Ödeme", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 18.sp)
-                        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) { odeme_listesi.forEach { odm -> FilterChip(selected = seciliOdemeler[odm] == true, onClick = { seciliOdemeler[odm] = !(seciliOdemeler[odm] ?: false) }, label = { Text(odm, fontSize = 16.sp) }) } }
+                        Text("Ödeme", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+                        FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) { odeme_listesi.forEach { odm -> FilterChip(selected = seciliOdemeler[odm] == true, onClick = { 
+                            val newVal = !(seciliOdemeler[odm] ?: false)
+                            seciliOdemeler[odm] = newVal
+                            if (newVal) {
+                                if (odm == "POS") seciliOdemeler["NAKİT"] = false
+                                if (odm == "NAKİT") seciliOdemeler["POS"] = false
+                                if (odm == "Paket") seciliOdemeler["Dükkan içi"] = false
+                                if (odm == "Dükkan içi") seciliOdemeler["Paket"] = false
+                            }
+                        }, label = { Text(odm, fontSize = 13.sp) }) } }
                     }
                 }
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                Text("Hızlı İçecek Ekle", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 18.sp)
+                Text("Hızlı İçecek Ekle", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
                 FlowRow(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     icecekMenusu.forEach { ic ->
                         val miktar = if (seciliIcecekler[ic.ad] == true) (icecekAdetleri[ic.ad] ?: 1) else 0
                         Box(contentAlignment = Alignment.TopEnd) {
                             Box(
                                 modifier = Modifier
-                                    .size(105.dp, 80.dp)
+                                    .size(85.dp, 55.dp)
                                     .background(if (miktar > 0) Color(0xFF388E3C) else Color(0xFF242424), RoundedCornerShape(12.dp))
                                     .combinedClickable(
                                         onClick = { 
@@ -606,7 +618,7 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                                     ),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(ic.ad, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.padding(8.dp))
+                                Text(ic.ad, color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.padding(4.dp))
                             }
                             
                             if (miktar > 0) {
@@ -625,13 +637,13 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
-            OutlinedTextField(value = siparisNotu, onValueChange = { siparisNotu = it }, label = { Text("Özel Sipariş Notu (Örn: Çok pişsin)", fontSize = 18.sp) }, modifier = Modifier.fillMaxWidth(), textStyle = androidx.compose.ui.text.TextStyle(fontSize = 20.sp))
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(value = siparisNotu, onValueChange = { siparisNotu = it }, label = { Text("Özel Sipariş Notu (Örn: Çok pişsin)", fontSize = 15.sp) }, modifier = Modifier.fillMaxWidth(), textStyle = androidx.compose.ui.text.TextStyle(fontSize = 20.sp))
             if (guncelMasaAdi == null) {
                 Spacer(modifier = Modifier.height(16.dp))
-                OutlinedTextField(value = musteriAdi, onValueChange = { musteriAdi = it }, label = { Text("Masa No / İsim", fontSize = 18.sp) }, singleLine = true, modifier = Modifier.fillMaxWidth(), textStyle = androidx.compose.ui.text.TextStyle(fontSize = 20.sp))
+                OutlinedTextField(value = musteriAdi, onValueChange = { musteriAdi = it }, label = { Text("Masa No / İsim", fontSize = 15.sp) }, singleLine = true, modifier = Modifier.fillMaxWidth(), textStyle = androidx.compose.ui.text.TextStyle(fontSize = 20.sp))
             }
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             
             Button(
                 onClick = {
@@ -686,9 +698,9 @@ fun AdisyonKarti(adisyon: Adisyon, tamamlandiClick: () -> Unit, kalemSilClick: (
                         val detayText = if (ilkKalem.detay == "Standart") "" else " (${ilkKalem.detay})"
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(text = "• ${adet}x ${ilkKalem.urunAd}$detayText", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                            if (adet > 1) Text(text = if (isExpanded) "  ▲" else "  ▼", fontSize = 16.sp, color = Color.Gray)
+                            if (adet > 1) Text(text = if (isExpanded) "  ▲" else "  ▼", fontSize = 13.sp, color = Color.Gray)
                         }
-                        if (ilkKalem.notlar.isNotEmpty()) Text(text = ilkKalem.notlar, fontSize = 16.sp, color = Color.LightGray, modifier = Modifier.padding(top = 4.dp))
+                        if (ilkKalem.notlar.isNotEmpty()) Text(text = ilkKalem.notlar, fontSize = 13.sp, color = Color.LightGray, modifier = Modifier.padding(top = 4.dp))
                     }
                     Text(text = "${ilkKalem.fiyat * adet} ₺", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF81C784))
                 }
@@ -707,14 +719,14 @@ fun AdisyonKarti(adisyon: Adisyon, tamamlandiClick: () -> Unit, kalemSilClick: (
                                         true 
                                     } else false 
                                 })
-                            SwipeToDismissBox(state = dismissState, enableDismissFromStartToEnd = false, backgroundContent = { val color by animateColorAsState(if (dismissState.targetValue == SwipeToDismissBoxValue.EndToStart) Color.Red else Color.Transparent); Box(Modifier.fillMaxSize().background(color).padding(horizontal = 20.dp), contentAlignment = Alignment.CenterEnd) { Text("Sil", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp) } }) {
+                            SwipeToDismissBox(state = dismissState, enableDismissFromStartToEnd = false, backgroundContent = { val color by animateColorAsState(if (dismissState.targetValue == SwipeToDismissBoxValue.EndToStart) Color.Red else Color.Transparent); Box(Modifier.fillMaxSize().background(color).padding(horizontal = 20.dp), contentAlignment = Alignment.CenterEnd) { Text("Sil", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp) } }) {
                                 Row(modifier = Modifier.fillMaxWidth().background(Color(0xFF1E1E1E)).padding(horizontal = 16.dp, vertical = 12.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                                    Text(text = "↳ 1x ${tekliKalem.urunAd}", fontSize = 16.sp, color = Color.LightGray)
+                                    Text(text = "↳ 1x ${tekliKalem.urunAd}", fontSize = 13.sp, color = Color.LightGray)
                                     Row(verticalAlignment = Alignment.CenterVertically) {
-                                        Text(text = "${tekliKalem.fiyat} ₺", fontSize = 16.sp, color = Color.Gray, modifier = Modifier.padding(end = 12.dp))
-                                        Box(modifier = Modifier.size(36.dp).background(Color(0xFF333333), RoundedCornerShape(8.dp)).clickable { notDuzenleClick(tekliKalem) }, contentAlignment = Alignment.Center) { Text("✏️", fontSize = 16.sp) }
+                                        Text(text = "${tekliKalem.fiyat} ₺", fontSize = 13.sp, color = Color.Gray, modifier = Modifier.padding(end = 12.dp))
+                                        Box(modifier = Modifier.size(36.dp).background(Color(0xFF333333), RoundedCornerShape(8.dp)).clickable { notDuzenleClick(tekliKalem) }, contentAlignment = Alignment.Center) { Text("✏️", fontSize = 13.sp) }
                                         Spacer(modifier = Modifier.width(8.dp))
-                                        Box(modifier = Modifier.size(36.dp).background(Color(0xFF421515), RoundedCornerShape(8.dp)).clickable { kalemSilClick(tekliKalem) }, contentAlignment = Alignment.Center) { Text("🗑️", fontSize = 16.sp) }
+                                        Box(modifier = Modifier.size(36.dp).background(Color(0xFF421515), RoundedCornerShape(8.dp)).clickable { kalemSilClick(tekliKalem) }, contentAlignment = Alignment.Center) { Text("🗑️", fontSize = 13.sp) }
                                     }
                                 }
                             }
@@ -724,15 +736,15 @@ fun AdisyonKarti(adisyon: Adisyon, tamamlandiClick: () -> Unit, kalemSilClick: (
                 }
             }
             
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             if (adisyon.durum == "Bekliyor") {
-                OutlinedButton(onClick = ilaveClick, modifier = Modifier.fillMaxWidth().height(56.dp), colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFFFF9800)), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF9800)), shape = RoundedCornerShape(12.dp)) { Text("Siparişi Düzenle (Ekle)", fontWeight = FontWeight.Bold, fontSize = 18.sp) }
+                OutlinedButton(onClick = ilaveClick, modifier = Modifier.fillMaxWidth().height(56.dp), colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFFFF9800)), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF9800)), shape = RoundedCornerShape(12.dp)) { Text("Siparişi Düzenle (Ekle)", fontWeight = FontWeight.Bold, fontSize = 15.sp) }
                 Spacer(modifier = Modifier.height(12.dp))
             }
             Row(modifier = Modifier.fillMaxWidth()) {
-                Button(onClick = yazdirClick, modifier = Modifier.weight(1f).height(64.dp), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242)), shape = RoundedCornerShape(12.dp)) { Text("🖨️ Fiş Yazdır", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp) }
+                Button(onClick = yazdirClick, modifier = Modifier.weight(1f).height(64.dp), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF424242)), shape = RoundedCornerShape(12.dp)) { Text("🖨️ Fiş Yazdır", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp) }
                 Spacer(modifier = Modifier.width(12.dp))
-                Button(onClick = tamamlandiClick, modifier = Modifier.weight(1f).height(64.dp), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)), shape = RoundedCornerShape(12.dp)) { Text("Ödendi / Kapat", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp) }
+                Button(onClick = tamamlandiClick, modifier = Modifier.weight(1f).height(64.dp), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)), shape = RoundedCornerShape(12.dp)) { Text("Ödendi / Kapat", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp) }
             }
         }
     }
