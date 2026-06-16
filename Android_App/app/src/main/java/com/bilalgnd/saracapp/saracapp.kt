@@ -494,11 +494,11 @@ fun UrunKarti(urun: Urun, onClick: () -> Unit, onLongClick: () -> Unit) {
     val bgRenk = when {
         adLc.contains("tombik") -> Color(0xFFFF9800)
         adLc.contains("eski usul") -> Color(0xFFF44336)
-        adLc.contains("dürüm") -> Color(0xFFFFEB3B)
-        adLc.contains("et porsiyon") || adLc.contains("beyti") || adLc.contains("iskender") || adLc.contains("ıskender") || (adLc.contains("pilav üstü") && !adLc.contains("tavuk")) -> Color(0xFF8B0000)
+        adLc.contains("durum") -> Color(0xFFFFEB3B)
+        adLc.contains("et porsiyon") || adLc.contains("beyti") || adLc.contains("iskender") || adLc.contains("ıskender") || (adLc.contains("pilav ustu") && !adLc.contains("tavuk")) -> Color(0xFF8B0000)
         adLc.contains("hatay") -> Color(0xFFF5DEB3)
         adLc.contains("biga") -> Color(0xFF1976D2)
-        adLc.contains("tavuk porsiyon") || (adLc.contains("pilav üstü") && adLc.contains("tavuk")) -> Color(0xFFFF5722)
+        adLc.contains("tavuk porsiyon") || (adLc.contains("pilav ustu") && adLc.contains("tavuk")) -> Color(0xFFFF5722)
         else -> Color(0xFF242424)
     }
     val isLightBg = bgRenk == Color(0xFFFFEB3B) || bgRenk == Color(0xFFFF9800) || bgRenk == Color(0xFFF5DEB3) || bgRenk == Color(0xFFFF5722)
@@ -555,20 +555,20 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
             Spacer(modifier = Modifier.height(8.dp))
 
             if (!isIcecek) {
-                                Text("İçerik", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+                Text("Icerik", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 4.dp)) {
-                    val zityon = mapOf("Soğan Yok" to "Soğanlı", "Soğanlı" to "Soğan Yok", "Domates Yok" to "Domatesli", "Domatesli" to "Domates Yok", "Patates Yok" to "Patatesli", "Patatesli" to "Patates Yok", "Ketçap Yok" to "Ketçaplı", "Ketçaplı" to "Ketçap Yok", "Mayonez Yok" to "Mayonezli", "Mayonezli" to "Mayonez Yok", "Turşu Yok" to "Turşulu", "Turşulu" to "Turşu Yok")
-                    val cikar = listOf("Soğan Yok", "Domates Yok", "Patates Yok", "Ketçap Yok", "Mayonez Yok", "Turşu Yok")
-                    val ekle = listOf("Soğanlı", "Domatesli", "Patatesli", "Ketçaplı", "Mayonezli", "Turşulu")
+                    val zityon = mapOf("Sogan Yok" to "Soganli", "Soganli" to "Sogan Yok", "Domates Yok" to "Domatesli", "Domatesli" to "Domates Yok", "Patates Yok" to "Patatesli", "Patatesli" to "Patates Yok", "Ketcap Yok" to "Ketcapli", "Ketcapli" to "Ketcap Yok", "Mayonez Yok" to "Mayonezli", "Mayonezli" to "Mayonez Yok", "Tursu Yok" to "Tursulu", "Tursulu" to "Tursu Yok")
+                    val cikar = listOf("Sogan Yok", "Domates Yok", "Patates Yok", "Ketcap Yok", "Mayonez Yok", "Tursu Yok")
+                    val ekle = listOf("Soganli", "Domatesli", "Patatesli", "Ketcapli", "Mayonezli", "Tursulu")
                     cikar.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { val s = !(seciliNotlar[malz] ?: false); seciliNotlar[malz] = s; if(s && zityon.containsKey(malz)) seciliNotlar[zityon[malz]!!] = false }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFE53935), selectedLabelColor = Color.White)) }
                     ekle.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { val s = !(seciliNotlar[malz] ?: false); seciliNotlar[malz] = s; if(s && zityon.containsKey(malz)) seciliNotlar[zityon[malz]!!] = false }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
-                    listOf("Cheddar", "Kaşarlı").forEach { malz -> if(ucretliEkstralar.containsKey(malz)) { FilterChip(selected = seciliUcretliEkstralar[malz] == true, onClick = { seciliUcretliEkstralar[malz] = !(seciliUcretliEkstralar[malz] ?: false) }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFFFD54F), selectedLabelColor = Color.Black)) } }
+                    listOf("Cheddar", "Kasarli").forEach { malz -> if(ucretliEkstralar.containsKey(malz)) { FilterChip(selected = seciliUcretliEkstralar[malz] == true, onClick = { seciliUcretliEkstralar[malz] = !(seciliUcretliEkstralar[malz] ?: false) }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFFFD54F), selectedLabelColor = Color.Black)) } }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
                 val digerUcretliler = ucretliEkstralar.filterKeys { !it.contains("Cheddar") && !it.contains("Kasar") && !it.contains("Kaşar") }
                 if (digerUcretliler.isNotEmpty()) {
-                    Text("Ücretli Ekstralar", fontWeight = FontWeight.Bold, color = Color(0xFFFFD54F), fontSize = 15.sp)
+                    Text("Ucretli Ekstralar", fontWeight = FontWeight.Bold, color = Color(0xFFFFD54F), fontSize = 15.sp)
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(top = 8.dp)) {
                         digerUcretliler.forEach { (isim, fiyat) -> FilterChip(selected = seciliUcretliEkstralar[isim] == true, onClick = { seciliUcretliEkstralar[isim] = !(seciliUcretliEkstralar[isim] ?: false) }, label = { Text("$isim (+$fiyat₺)", fontSize = 15.sp, modifier = Modifier.padding(6.dp)) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFFFD54F), selectedLabelColor = Color.Black)) }
                     }
@@ -577,11 +577,11 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
 
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Notlar", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+                        Text("Ozel Not Gir:", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
                         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) { ucretsiz_ekstra_listesi.forEach { eks -> FilterChip(selected = seciliUcretsizEkstralar[eks] == true, onClick = { seciliUcretsizEkstralar[eks] = !(seciliUcretsizEkstralar[eks] ?: false) }, label = { Text(eks, fontSize = 13.sp) }) } }
                     }
                     Column(modifier = Modifier.weight(1f)) {
-                        Text("Ödeme", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
+                        Text("Odeme", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
                         FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) { odeme_listesi.forEach { odm -> FilterChip(selected = seciliOdemeler[odm] == true, onClick = { 
                             val newVal = !(seciliOdemeler[odm] ?: false)
                             seciliOdemeler[odm] = newVal

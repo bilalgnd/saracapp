@@ -59,43 +59,43 @@ KASA_IP = yerel_ip_bul()
 
 baslangic_menu_et = [
     {"ad": "Et Tombik", "secenekler": [{"gr": "50gr", "fiyat": 250}, {"gr": "100gr", "fiyat": 350}, {"gr": "150gr", "fiyat": 450}]},
-    {"ad": "Et Dürüm", "secenekler": [{"gr": "50gr", "fiyat": 250}, {"gr": "100gr", "fiyat": 350}, {"gr": "150gr", "fiyat": 450}]},
-    {"ad": "Et XL Dürüm", "secenekler": [{"gr": "120gr", "fiyat": 400}, {"gr": "170gr", "fiyat": 500}, {"gr": "220gr", "fiyat": 600}]},
+    {"ad": "Et Durum", "secenekler": [{"gr": "50gr", "fiyat": 250}, {"gr": "100gr", "fiyat": 350}, {"gr": "150gr", "fiyat": 450}]},
+    {"ad": "Et XL Durum", "secenekler": [{"gr": "120gr", "fiyat": 400}, {"gr": "170gr", "fiyat": 500}, {"gr": "220gr", "fiyat": 600}]},
     {"ad": "Et Eski Usul", "secenekler": [{"gr": "50gr", "fiyat": 250}, {"gr": "100gr", "fiyat": 350}, {"gr": "150gr", "fiyat": 450}]},
     {"ad": "Et Porsiyon", "secenekler": [{"gr": "120gr", "fiyat": 500}, {"gr": "170gr", "fiyat": 600}, {"gr": "220gr", "fiyat": 700}]},
-    {"ad": "Et Pilav Üstü", "secenekler": [{"gr": "120gr", "fiyat": 550}, {"gr": "170gr", "fiyat": 650}, {"gr": "220gr", "fiyat": 750}]},
+    {"ad": "Et Pilav Ustu", "secenekler": [{"gr": "120gr", "fiyat": 550}, {"gr": "170gr", "fiyat": 650}, {"gr": "220gr", "fiyat": 750}]},
     {"ad": "Beyti", "secenekler": [{"gr": "100gr", "fiyat": 650}, {"gr": "150gr", "fiyat": 750}, {"gr": "200gr", "fiyat": 850}]},
-    {"ad": "İskender", "secenekler": [{"gr": "100gr", "fiyat": 650}, {"gr": "150gr", "fiyat": 750}, {"gr": "200gr", "fiyat": 850}]}
+    {"ad": "Iskender", "secenekler": [{"gr": "100gr", "fiyat": 650}, {"gr": "150gr", "fiyat": 750}, {"gr": "200gr", "fiyat": 850}]}
 ]
 baslangic_menu_tavuk = [
     {"ad": "Tavuk Tombik", "secenekler": [{"gr": "100gr", "fiyat": 140}, {"gr": "150gr", "fiyat": 200}, {"gr": "200gr", "fiyat": 250}]},
-    {"ad": "Tavuk Dürüm", "secenekler": [{"gr": "100gr", "fiyat": 140}, {"gr": "150gr", "fiyat": 200}, {"gr": "200gr", "fiyat": 250}]},
-    {"ad": "Tavuk XL Dürüm", "secenekler": [{"gr": "120gr", "fiyat": 170}, {"gr": "170gr", "fiyat": 220}, {"gr": "220gr", "fiyat": 270}]},
-    {"ad": "Hatay Usulü", "secenekler": [{"gr": "100gr", "fiyat": 170}, {"gr": "150gr", "fiyat": 220}, {"gr": "200gr", "fiyat": 270}]},
+    {"ad": "Tavuk Durum", "secenekler": [{"gr": "100gr", "fiyat": 140}, {"gr": "150gr", "fiyat": 200}, {"gr": "200gr", "fiyat": 250}]},
+    {"ad": "Tavuk XL Durum", "secenekler": [{"gr": "120gr", "fiyat": 170}, {"gr": "170gr", "fiyat": 220}, {"gr": "220gr", "fiyat": 270}]},
+    {"ad": "Hatay Usulu", "secenekler": [{"gr": "100gr", "fiyat": 170}, {"gr": "150gr", "fiyat": 220}, {"gr": "200gr", "fiyat": 270}]},
     {"ad": "Tavuk Eski Usul", "secenekler": [{"gr": "100gr", "fiyat": 140}, {"gr": "150gr", "fiyat": 200}, {"gr": "200gr", "fiyat": 250}]},
-    {"ad": "Biga Döneri", "secenekler": [{"gr": "100gr", "fiyat": 120}]},
+    {"ad": "Biga Doneri", "secenekler": [{"gr": "100gr", "fiyat": 120}]},
     {"ad": "Tavuk Porsiyon", "secenekler": [{"gr": "100gr", "fiyat": 250}, {"gr": "150gr", "fiyat": 300}, {"gr": "200gr", "fiyat": 350}]},
-    {"ad": "Tavuk Pilav Üstü", "secenekler": [{"gr": "100gr", "fiyat": 300}, {"gr": "150gr", "fiyat": 350}, {"gr": "200gr", "fiyat": 400}]}
+    {"ad": "Tavuk Pilav Ustu", "secenekler": [{"gr": "100gr", "fiyat": 300}, {"gr": "150gr", "fiyat": 350}, {"gr": "200gr", "fiyat": 400}]}
 ]
 baslangic_menu_kampanya = [
-    {"ad": "Tavuk Döner + Ayran", "secenekler": [{"gr": "Standart", "fiyat": 120}]},
-    {"ad": "Et Döner + Ayran", "secenekler": [{"gr": "Standart", "fiyat": 220}]},
+    {"ad": "Tavuk Doner + Ayran", "secenekler": [{"gr": "Standart", "fiyat": 120}]},
+    {"ad": "Et Doner + Ayran", "secenekler": [{"gr": "Standart", "fiyat": 220}]},
     {"ad": "500gr Et", "secenekler": [{"gr": "Standart", "fiyat": 1250}]},
     {"ad": "500gr Tavuk", "secenekler": [{"gr": "Standart", "fiyat": 600}]}
 ]
 baslangic_menu_icecekler = [
     {"ad": "Kutu Kola", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
     {"ad": "Ayran", "secenekler": [{"gr": "Standart", "fiyat": 30}]},
-    {"ad": "Açık Ayran", "secenekler": [{"gr": "Standart", "fiyat": 50}]},
-    {"ad": "Şişe Kola", "secenekler": [{"gr": "Standart", "fiyat": 60}]},
+    {"ad": "Acik Ayran", "secenekler": [{"gr": "Standart", "fiyat": 50}]},
+    {"ad": "Sise Kola", "secenekler": [{"gr": "Standart", "fiyat": 60}]},
     {"ad": "Su", "secenekler": [{"gr": "Standart", "fiyat": 20}]},
     {"ad": "Sprite", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
     {"ad": "Fanta", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
     {"ad": "Cola Zero", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
-    {"ad": "Şalgam", "secenekler": [{"gr": "Standart", "fiyat": 50}]},
+    {"ad": "Salgam", "secenekler": [{"gr": "Standart", "fiyat": 50}]},
     {"ad": "Soda", "secenekler": [{"gr": "Standart", "fiyat": 25}]}
 ]
-UCRETLI_EKSTRALAR = {"Cheddar": 70, "Kaşarlı": 70}
+UCRETLI_EKSTRALAR = {"Cheddar": 70, "Kasarli": 70}
 
 def usb_fis_yazdir(musteri_adi, kalemler, toplam_tutar, saat=""):
     if not YAZICI_AKTIF: return
@@ -235,7 +235,7 @@ class KasaSistemi(ctk.CTk):
         global kasa_arayuz_referansi
         kasa_arayuz_referansi = self
 
-        self.title("SARAÇOĞLU DÖNER v4.0.5")
+        self.title("SARACOGLU DONER v4.0.5")
         ctk.set_appearance_mode("dark") 
         self.geometry("1400x800")
         self.minsize(1300, 700)
@@ -540,17 +540,17 @@ class KasaSistemi(ctk.CTk):
                 satir += 1
                 continue
 
-            ad_kucuk = urun['ad'].replace('İ','i').replace('I','ı').lower()
+            ad_kucuk = urun['ad'].lower()
             if "tombik" in ad_kucuk: bg_renk = "#FF9800"; txt_renk = "black"; hov_renk = "#F57C00"
             elif "eski usul" in ad_kucuk: bg_renk = "#F44336"; txt_renk = "white"; hov_renk = "#D32F2F"
-            elif "d" in ad_kucuk and "r" in ad_kucuk and "m" in ad_kucuk and len(ad_kucuk) < 7: bg_renk = "#FFEB3B"; txt_renk = "black"; hov_renk = "#FBC02D"
-            elif any(x in ad_kucuk for x in ["et porsiyon", "beyti", "iskender", "ıskender"]) or ("pilav üstü" in ad_kucuk and "tavuk" not in ad_kucuk): bg_renk = "#8B0000"; txt_renk = "white"; hov_renk = "#B71C1C"
+            elif "durum" in ad_kucuk: bg_renk = "#FFEB3B"; txt_renk = "black"; hov_renk = "#FBC02D"
+            elif any(x in ad_kucuk for x in ["et porsiyon", "beyti", "iskender"]) or ("pilav ustu" in ad_kucuk and "tavuk" not in ad_kucuk): bg_renk = "#8B0000"; txt_renk = "white"; hov_renk = "#B71C1C"
             elif "hatay" in ad_kucuk: bg_renk = "#F5DEB3"; txt_renk = "black"; hov_renk = "#D2B48C"
             elif "biga" in ad_kucuk: bg_renk = "#1976D2"; txt_renk = "white"; hov_renk = "#1565C0"
-            elif "tavuk porsiyon" in ad_kucuk or ("pilav üstü" in ad_kucuk and "tavuk" in ad_kucuk): bg_renk = "#FFFF5722"; txt_renk = "black"; hov_renk = "#E64A19"
+            elif "tavuk porsiyon" in ad_kucuk or ("pilav ustu" in ad_kucuk and "tavuk" in ad_kucuk): bg_renk = "#FFFF5722"; txt_renk = "black"; hov_renk = "#E64A19"
             elif any(x in ad_kucuk for x in ["kola", "ayran", "su", "soda", "sprite", "fanta", "salgam", "zero"]): bg_renk = "#0277BD"; txt_renk = "white"; hov_renk = "#01579B"
             else: bg_renk = "#37474F" if self.ayarlar_modu else "#1E1E1E"; txt_renk = "white"; hov_renk = "#455A64" if self.ayarlar_modu else "#333333"
-
+            
             buton_yazisi = f"{urun['ad']}\n\n✏️ Fiyat" if self.ayarlar_modu else f"{urun['ad']}\n\n{urun['secenekler'][0]['fiyat']} ₺"
             btn = ctk.CTkButton(self.icerik_frame, text=buton_yazisi, font=("Arial", 22, "bold"), fg_color=bg_renk, hover_color=hov_renk, text_color=txt_renk, corner_radius=20, height=130, command=lambda u=urun: self.fiyat_penceresi_ac(u) if self.ayarlar_modu else self.siparis_penceresi_ac(u))
             btn.grid(row=satir, column=sutun, padx=10, pady=10, sticky="nsew")
@@ -632,7 +632,8 @@ class KasaSistemi(ctk.CTk):
         self.modal_urun = urun; self.modal_adet = adet
         self.modal_secili_gramaj = ctk.StringVar(value=next((s['gr'] for s in urun['secenekler'] if s['gr'] == "100gr"), urun['secenekler'][0]['gr']))
         self.modal_anlik_fiyat = ctk.IntVar(value=next((s['fiyat'] for s in urun['secenekler'] if s['gr'] == "100gr"), urun['secenekler'][0]['fiyat']))
-        self.modal_cikar = {m: ctk.BooleanVar(value=False) for m in ["Soğan", "Domates", "Patates", "Ketçap", "Mayonez", "Turşu"]}
+        self.modal_cikar = {m: ctk.BooleanVar(value=False) for m in ["Sogan", "Domates", "Patates", "Ketcap", "Mayonez", "Tursu"]}
+        self.modal_ekle = {m: ctk.BooleanVar(value=False) for m in ["Sogan", "Domates", "Patates", "Ketcap", "Mayonez", "Tursu"]}
         self.modal_ucretli_ek = {e: ctk.BooleanVar(value=False) for e in UCRETLI_EKSTRALAR.keys()}
         self.modal_ucretsiz_ek = {e: ctk.BooleanVar(value=False) for e in ["Sade Et", "Soslu", "Gemi", "Kayık"]}
         self.modal_icecek = {ic['ad']: ctk.IntVar(value=0) for ic in self.menu_icecekler}
@@ -664,17 +665,44 @@ class KasaSistemi(ctk.CTk):
             self.gr_butonlari.append((b, s['gr']))
 
         if not is_icecek:
-            ctk.CTkLabel(govde, text="İçerik Çıkar:", font=("Arial", 18, "bold")).pack(anchor="w", padx=10, pady=(20, 5))
-            cik_sat = ctk.CTkFrame(govde, fg_color="transparent"); cik_sat.pack(fill="x", padx=10)
-            for i, (ad, var) in enumerate(self.modal_cikar.items()):
-                b, _ = cip_olustur(cik_sat, f"{ad} Yok", var, "#D32F2F", "#333333")
-                b.grid(row=i//4, column=i%4, padx=5, pady=5)
+            def m_exclusive(ad, karsi_dict, b2_list):
+                if karsi_dict[ad].get():
+                    karsi_dict[ad].set(False)
+                    for b2_ad, b2_btn, b2_var in b2_list:
+                        if b2_ad == ad:
+                            b2_btn.configure(fg_color="#333333")
 
-            ctk.CTkLabel(govde, text="Ücretli Ekstralar:", font=("Arial", 18, "bold"), text_color="#FFD54F").pack(anchor="w", padx=10, pady=(20, 5))
-            ek_sat = ctk.CTkFrame(govde, fg_color="transparent"); ek_sat.pack(fill="x", padx=10)
-            for i, (ad, var) in enumerate(self.modal_ucretli_ek.items()):
-                b, _ = cip_olustur(ek_sat, f"{ad} (+{UCRETLI_EKSTRALAR[ad]}₺)", var, "#FBC02D", "#333333", "black", 180)
-                b.grid(row=i//4, column=i%4, padx=5, pady=5)
+            ctk.CTkLabel(govde, text="Icerik:", font=("Arial", 18, "bold")).pack(anchor="w", padx=10, pady=(20, 5))
+            cik_sat = ctk.CTkFrame(govde, fg_color="transparent"); cik_sat.pack(fill="x", padx=10)
+            
+            cikar_btns = []
+            ekle_btns = []
+            for i, (ad, var) in enumerate(self.modal_cikar.items()):
+                b, _ = cip_olustur(cik_sat, f"{ad} Yok", var, "#E53935", "#333333", on_click=lambda a=ad: m_exclusive(a, self.modal_ekle, ekle_btns))
+                b.grid(row=i//6, column=i%6, padx=5, pady=5)
+                cikar_btns.append((ad, b, var))
+            
+            for i, (ad, var) in enumerate(self.modal_ekle.items()):
+                ek_ad = ad + "li" if not ad.endswith("es") else ad + "li"
+                if ad == "Tursu": ek_ad = "Tursulu"
+                if ad == "Sogan": ek_ad = "Soganli"
+                if ad == "Ketcap": ek_ad = "Ketcapli"
+                b, _ = cip_olustur(cik_sat, ek_ad, var, "#4CAF50", "#333333", on_click=lambda a=ad: m_exclusive(a, self.modal_cikar, cikar_btns))
+                b.grid(row=2+i//6, column=i%6, padx=5, pady=5)
+                ekle_btns.append((ad, b, var))
+            
+            for i, malz in enumerate(["Cheddar", "Kasarli"]):
+                if malz in self.modal_ucretli_ek:
+                    b, _ = cip_olustur(cik_sat, malz, self.modal_ucretli_ek[malz], "#FFD54F", "#333333", "black")
+                    b.grid(row=4, column=i, padx=5, pady=5)
+
+            diger_ucretliler = {k: v for k, v in self.modal_ucretli_ek.items() if k not in ["Cheddar", "Kasarli"]}
+            if diger_ucretliler:
+                ctk.CTkLabel(govde, text="Ucretli Ekstralar:", font=("Arial", 18, "bold"), text_color="#FFD54F").pack(anchor="w", padx=10, pady=(20, 5))
+                ek_sat = ctk.CTkFrame(govde, fg_color="transparent"); ek_sat.pack(fill="x", padx=10)
+                for i, (ad, var) in enumerate(diger_ucretliler.items()):
+                    b, _ = cip_olustur(ek_sat, f"{ad} (+{UCRETLI_EKSTRALAR[ad]} TL)", var, "#FBC02D", "#333333", "black", 180)
+                    b.grid(row=i//4, column=i%4, padx=5, pady=5)
 
             ctk.CTkLabel(govde, text="Notlar:", font=("Arial", 18, "bold")).pack(anchor="w", padx=10, pady=(20, 5))
             not_sat = ctk.CTkFrame(govde, fg_color="transparent"); not_sat.pack(fill="x", padx=10)
@@ -718,8 +746,16 @@ class KasaSistemi(ctk.CTk):
     def sepete_kalemleri_at(self, popup):
         n = []
         n.extend([f"{k} yok" for k, v in self.modal_cikar.items() if v.get()])
+        for k, v in self.modal_ekle.items():
+            if v.get():
+                ek_ad = k + "li" if not k.endswith("es") else k + "li"
+                if k == "Tursu": ek_ad = "Tursulu"
+                if k == "Sogan": ek_ad = "Soganli"
+                if k == "Ketcap": ek_ad = "Ketcapli"
+                n.append(ek_ad)
         n.extend([k for k, v in self.modal_ucretsiz_ek.items() if v.get()])
-        n.extend([f"{k} eklendi" for k, v in self.modal_ucretli_ek.items() if v.get()])
+        n.extend([f"{k}" for k, v in self.modal_ucretli_ek.items() if v.get() if k in ["Cheddar", "Kasarli"]])
+        n.extend([f"{k} eklendi" for k, v in self.modal_ucretli_ek.items() if v.get() if k not in ["Cheddar", "Kasarli"]])
         if self.modal_ozel_not.get().strip(): n.append(self.modal_ozel_not.get().strip())
         n_m = "Not: " + ", ".join(n) if n else ""
         
