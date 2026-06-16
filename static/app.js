@@ -112,9 +112,25 @@ function connectWebSocket() {
 
 function getCardColorClass(name) {
     name = name.toLowerCase();
+    if (name.includes("et porsiyon") || name.includes("pilav üstü beyti") || name.includes("iskender")) return "dark-red";
+    if (name.includes("tavuk hatay usulü")) return "cream";
+    if (name.includes("biga döner")) return "blue";
+    if (name.includes("tavuk porsiyon") || name.includes("pilav üstü")) return "dark-orange";
     if (name.includes("tombik")) return "orange";
     if (name.includes("eski usul")) return "red";
     if (name.includes("dürüm")) return "yellow";
+    return "";
+}
+
+function getDrinkColorClass(name) {
+    name = name.toLowerCase();
+    if (name.includes("coca cola") || name.includes("şişe kola") || name.includes("kutu kola") || name.includes("cola zero")) return "cola-red";
+    if (name.includes("sprite")) return "sprite-green";
+    if (name.includes("fanta")) return "fanta-yellow";
+    if (name.includes("ayran")) return "ayran-white";
+    if (name.includes("su") && !name.includes("şalgam")) return "water-blue";
+    if (name.includes("soda")) return "soda-green";
+    if (name.includes("şalgam")) return "salgam-purple";
     return "";
 }
 
@@ -139,7 +155,25 @@ function renderChipGroup(containerId, items, stateObj, isNegative, colorClass, o
     items.forEach(item => {
         let label = typeof item === 'string' ? item : item.label;
         let key = typeof item === 'string' ? item : item.key;
-        if (isNegative) label += " Yok";
+        if (isNegative) {
+            let n = label;
+            label = n + "sız";
+            if (n === "Soğan") label = "Soğansız";
+            if (n === "Domates") label = "Domatessiz";
+            if (n === "Patates") label = "Patatessiz";
+            if (n === "Ketçap") label = "Ketçapsız";
+            if (n === "Mayonez") label = "Mayonezsiz";
+            if (n === "Turşu") label = "Turşusuz";
+        } else if (containerId === 'icerikCikarContainer') {
+            let n = label;
+            label = n + "lı";
+            if (n === "Soğan") label = "Soğanlı";
+            if (n === "Domates") label = "Domatesli";
+            if (n === "Patates") label = "Patatesli";
+            if (n === "Ketçap") label = "Ketçaplı";
+            if (n === "Mayonez") label = "Mayonezli";
+            if (n === "Turşu") label = "Turşulu";
+        }
         
         const chip = document.createElement('div');
         chip.className = 'chip ' + colorClass;
@@ -202,7 +236,7 @@ function openProductSheet(item, isDrink) {
             dCont.innerHTML = '';
             menuData['icecekler'].forEach(ic => {
                 const dBtn = document.createElement('button');
-                dBtn.className = 'drink-btn';
+                dBtn.className = 'drink-btn ' + getDrinkColorClass(ic.ad);
                 dBtn.innerText = ic.ad;
                 dBtn.onclick = () => {
                     currentDrinks[ic.ad] = (currentDrinks[ic.ad] || 0) + 1;
@@ -285,7 +319,18 @@ function addProductToDraft() {
     }
 
     const tumNotlar = [];
-    Object.keys(seciliNotlar).forEach(k => { if(seciliNotlar[k]) tumNotlar.push(`${k} yok`); });
+    Object.keys(seciliNotlar).forEach(k => { 
+        if(seciliNotlar[k]) {
+            let label = k + "sız";
+            if (k === "Soğan") label = "Soğansız";
+            if (k === "Domates") label = "Domatessiz";
+            if (k === "Patates") label = "Patatessiz";
+            if (k === "Ketçap") label = "Ketçapsız";
+            if (k === "Mayonez") label = "Mayonezsiz";
+            if (k === "Turşu") label = "Turşusuz";
+            tumNotlar.push(label); 
+        } 
+    });
     Object.keys(seciliUcretsizEkstralar).forEach(k => { if(seciliUcretsizEkstralar[k]) tumNotlar.push(k); });
     Object.keys(seciliUcretliEkstralar).forEach(k => { if(seciliUcretliEkstralar[k]) tumNotlar.push(k); });
     Object.keys(seciliOdemeler).forEach(k => { if(seciliOdemeler[k]) tumNotlar.push(k); });

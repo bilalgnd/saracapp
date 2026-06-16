@@ -168,3 +168,29 @@ body { background-color: var(--bg-color); color: var(--text-main); overscroll-be
 .color-circle { width: 40px; height: 40px; border-radius: 50%; margin: auto; cursor: pointer; border: 3px solid transparent; }
 .color-circle.selected { border-color: white; transform: scale(1.1); }
 .modal-actions { display: flex; justify-content: flex-end; }
+
+/* Custom Card Colors */
+.card.dark-red { background: #8B0000; color: white; }
+.card.dark-red .card-price { color: #FFD700; }
+.card.cream { background: #FFFDD0; color: black; }
+.card.cream .card-price { color: #8B0000; }
+.card.blue { background: #2196F3; color: white; }
+.card.blue .card-price { color: #FFEB3B; }
+.card.dark-orange { background: #E65100; color: white; }
+.card.dark-orange .card-price { color: #FFD54F; }
+
+/* Drink Buttons Colors */
+.drink-btn.cola-red { background: #F40009; color: white; }
+.drink-btn.cola-red.selected { background: #B71C1C; color: white; border: 2px solid white; }
+.drink-btn.sprite-green { background: #008B47; color: white; }
+.drink-btn.sprite-green.selected { background: #004D40; color: white; border: 2px solid white; }
+.drink-btn.fanta-yellow { background: #F7941E; color: black; }
+.drink-btn.fanta-yellow.selected { background: #F57F17; color: black; border: 2px solid black; }
+.drink-btn.ayran-white { background: #F5F5DC; color: black; }
+.drink-btn.ayran-white.selected { background: #D7CCC8; color: black; border: 2px solid black; }
+.drink-btn.water-blue { background: #00BFFF; color: black; }
+.drink-btn.water-blue.selected { background: #0277BD; color: white; border: 2px solid white; }
+.drink-btn.soda-green { background: #006400; color: white; }
+.drink-btn.soda-green.selected { background: #1B5E20; color: white; border: 2px solid white; }
+.drink-btn.salgam-purple { background: #800080; color: white; }
+.drink-btn.salgam-purple.selected { background: #4A148C; color: white; border: 2px solid white; }
