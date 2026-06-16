@@ -544,7 +544,7 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
             Spacer(modifier = Modifier.height(12.dp))
             Text("Seçim / Gramaj", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 4.dp)) {
-                urun.secenekler.forEach { sec -> FilterChip(selected = (seciliGramaj == sec), onClick = { seciliGramaj = sec }, label = { Text(if(sec.gramaj == "Standart") " ₺" else " (₺)", fontSize = 13.sp, fontWeight = FontWeight.Bold) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
+                urun.secenekler.forEach { sec -> FilterChip(selected = (seciliGramaj == sec), onClick = { seciliGramaj = sec }, label = { Text(if(sec.gramaj == "Standart") "${sec.fiyat} ₺" else "${sec.gramaj} (${sec.fiyat}₺)", fontSize = 13.sp, fontWeight = FontWeight.Bold) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
             }
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -593,13 +593,13 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                     }
                 }
                 androidx.compose.runtime.CompositionLocalProvider(androidx.compose.ui.platform.LocalViewConfiguration provides fastLongPressConfig) {
-                FlowRow(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = 3) {
+                FlowRow(modifier = Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalArrangement = Arrangement.spacedBy(12.dp), maxItemsInEachRow = 5) {
                     icecekMenusu.forEach { ic ->
                         val miktar = if (seciliIcecekler[ic.ad] == true) (icecekAdetleri[ic.ad] ?: 1) else 0
                         Box(contentAlignment = Alignment.TopEnd) {
                             Box(
                                 modifier = Modifier
-                                    .height(55.dp).width(110.dp)
+                                    .height(50.dp).width(68.dp)
                                     .background(if (miktar > 0) Color(0xFF388E3C) else Color(0xFF242424), RoundedCornerShape(12.dp))
                                     .combinedClickable(
                                         onClick = { 
@@ -625,7 +625,7 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                                     ),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(ic.ad, color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.padding(4.dp))
+                                Text(ic.ad, color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.padding(2.dp), lineHeight = 12.sp)
                             }
                             
                             if (miktar > 0) {
