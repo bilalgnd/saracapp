@@ -490,14 +490,20 @@ fun AnaEkran() {
 
 @Composable
 fun UrunKarti(urun: Urun, onClick: () -> Unit, onLongClick: () -> Unit) {
+    val adLc = urun.ad.lowercase()
     val bgRenk = when {
-        urun.ad.contains("Tombik", ignoreCase = true) -> Color(0xFFFF9800)
-        urun.ad.contains("Eski Usul", ignoreCase = true) -> Color(0xFFF44336)
-        urun.ad.contains("Dürüm", ignoreCase = true) -> Color(0xFFFFEB3B)
+        adLc.contains("tombik") -> Color(0xFFFF9800)
+        adLc.contains("eski usul") -> Color(0xFFF44336)
+        adLc.contains("dürüm") -> Color(0xFFFFEB3B)
+        adLc.contains("et porsiyon") || adLc.contains("beyti") || adLc.contains("iskender") || (adLc.contains("pilav üstü") && !adLc.contains("tavuk")) -> Color(0xFF8B0000)
+        adLc.contains("tavuk hatay") -> Color(0xFFF5DEB3)
+        adLc.contains("biga") -> Color(0xFF1976D2)
+        adLc.contains("tavuk porsiyon") || (adLc.contains("pilav üstü") && adLc.contains("tavuk")) -> Color(0xFFFF5722)
         else -> Color(0xFF242424)
     }
-    val yaziRengi = if (bgRenk == Color(0xFFFFEB3B) || bgRenk == Color(0xFFFF9800)) Color.Black else Color.White
-    val fiyatRengi = if (bgRenk == Color(0xFF242424)) MaterialTheme.colorScheme.primary else if (bgRenk == Color(0xFFFFEB3B) || bgRenk == Color(0xFFFF9800)) Color(0xFF333333) else Color.White
+    val isLightBg = bgRenk == Color(0xFFFFEB3B) || bgRenk == Color(0xFFFF9800) || bgRenk == Color(0xFFF5DEB3) || bgRenk == Color(0xFFFF5722)
+    val yaziRengi = if (isLightBg) Color.Black else Color.White
+    val fiyatRengi = if (bgRenk == Color(0xFF242424)) MaterialTheme.colorScheme.primary else if (isLightBg) Color(0xFF333333) else Color.White
 
     Card(modifier = Modifier.fillMaxWidth().height(120.dp).pointerInput(Unit) { detectTapGestures(onTap = { onClick() }, onLongPress = { onLongClick() }) }, shape = RoundedCornerShape(16.dp), elevation = CardDefaults.cardElevation(defaultElevation = 8.dp), colors = CardDefaults.cardColors(containerColor = bgRenk)) {
         Column(modifier = Modifier.padding(12.dp).fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
@@ -551,10 +557,12 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
             if (!isIcecek) {
                                 Text("İçerik", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 4.dp)) {
+                    val zityon = mapOf("Soğan Yok" to "Soğanlı", "Soğanlı" to "Soğan Yok", "Domates Yok" to "Domatesli", "Domatesli" to "Domates Yok", "Patates Yok" to "Patatesli", "Patatesli" to "Patates Yok", "Ketçap Yok" to "Ketçaplı", "Ketçaplı" to "Ketçap Yok", "Mayonez Yok" to "Mayonezli", "Mayonezli" to "Mayonez Yok", "Turşu Yok" to "Turşulu", "Turşulu" to "Turşu Yok")
                     val cikar = listOf("Soğan Yok", "Domates Yok", "Patates Yok", "Ketçap Yok", "Mayonez Yok", "Turşu Yok")
                     val ekle = listOf("Soğanlı", "Domatesli", "Patatesli", "Ketçaplı", "Mayonezli", "Turşulu")
-                    cikar.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { seciliNotlar[malz] = !(seciliNotlar[malz] ?: false) }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFE53935), selectedLabelColor = Color.White)) }
-                    ekle.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { seciliNotlar[malz] = !(seciliNotlar[malz] ?: false) }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
+                    cikar.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { val s = !(seciliNotlar[malz] ?: false); seciliNotlar[malz] = s; if(s && zityon.containsKey(malz)) seciliNotlar[zityon[malz]!!] = false }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFE53935), selectedLabelColor = Color.White)) }
+                    ekle.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { val s = !(seciliNotlar[malz] ?: false); seciliNotlar[malz] = s; if(s && zityon.containsKey(malz)) seciliNotlar[zityon[malz]!!] = false }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
+                    listOf("Cheddar", "Kaşarlı").forEach { malz -> if(ucretliEkstralar.containsKey(malz)) { FilterChip(selected = seciliUcretliEkstralar[malz] == true, onClick = { seciliUcretliEkstralar[malz] = !(seciliUcretliEkstralar[malz] ?: false) }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFFFD54F), selectedLabelColor = Color.Black)) } }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -600,7 +608,20 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                             Box(
                                 modifier = Modifier
                                     .height(50.dp).width(68.dp)
-                                    .background(if (miktar > 0) Color(0xFF388E3C) else Color(0xFF242424), RoundedCornerShape(12.dp))
+                                    .background(
+                                        color = when {
+                                            ic.ad.lowercase().contains("kutu kola") || ic.ad.lowercase().contains("şişe kola") -> Color(0xFFF40009)
+                                            ic.ad.lowercase().contains("sprite") -> Color(0xFF008B47)
+                                            ic.ad.lowercase().contains("fanta") -> Color(0xFFF58216)
+                                            ic.ad.lowercase().contains("ayran") -> Color(0xFFFDFD96)
+                                            ic.ad.lowercase().contains("su") && !ic.ad.lowercase().contains("usul") -> Color(0xFF00BFFF)
+                                            ic.ad.lowercase().contains("soda") -> Color(0xFF006400)
+                                            ic.ad.lowercase().contains("şalgam") -> Color(0xFF800080)
+                                            ic.ad.lowercase().contains("zero") -> Color(0xFF111111)
+                                            else -> Color(0xFF242424)
+                                        }.let { if (miktar > 0) it else it.copy(alpha = 0.4f) },
+                                        shape = RoundedCornerShape(12.dp)
+                                    )
                                     .combinedClickable(
                                         onClick = { 
                                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -625,7 +646,8 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                                     ),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Text(ic.ad, color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.padding(2.dp), lineHeight = 12.sp)
+                                val yRengi = if (ic.ad.lowercase().contains("ayran")) Color.Black else Color.White
+                                Text(ic.ad, color = yRengi, fontSize = 11.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.padding(2.dp), lineHeight = 12.sp)
                             }
                             
                             if (miktar > 0) {
