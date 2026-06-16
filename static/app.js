@@ -112,13 +112,13 @@ function connectWebSocket() {
 
 function getCardColorClass(name) {
     name = name.toLowerCase();
-    if (name.includes("et porsiyon") || name.includes("pilav üstü beyti") || name.includes("iskender")) return "dark-red";
-    if (name.includes("tavuk hatay usulü")) return "cream";
-    if (name.includes("biga döner")) return "blue";
-    if (name.includes("tavuk porsiyon") || name.includes("pilav üstü")) return "dark-orange";
+    if (name.includes("et porsiyon") || name.includes("beyti") || name.includes("iskender")) return "dark-red";
+    if (name.includes("hatay usulu")) return "cream";
+    if (name.includes("biga doner")) return "blue";
+    if (name.includes("tavuk porsiyon") || name.includes("pilav ustu")) return "dark-orange";
     if (name.includes("tombik")) return "orange";
     if (name.includes("eski usul")) return "red";
-    if (name.includes("dürüm")) return "yellow";
+    if (name.includes("durum")) return "yellow";
     return "";
 }
 
