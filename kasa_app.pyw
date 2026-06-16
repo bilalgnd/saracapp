@@ -235,7 +235,7 @@ class KasaSistemi(ctk.CTk):
         global kasa_arayuz_referansi
         kasa_arayuz_referansi = self
 
-        self.title("SARACOGLU DONER v4.0.6")
+        self.title("SARACOGLU DONER v4.0.7")
         ctk.set_appearance_mode("dark") 
         self.geometry("1400x800")
         self.minsize(1300, 700)
@@ -678,7 +678,8 @@ class KasaSistemi(ctk.CTk):
             cikar_btns = []
             ekle_btns = []
             for i, (ad, var) in enumerate(self.modal_cikar.items()):
-                b, _ = cip_olustur(cik_sat, f"{ad} Yok", var, "#E53935", "#333333", on_click=lambda a=ad: m_exclusive(a, self.modal_ekle, ekle_btns))
+                cik_ad = ad + "siz" if ad != "Tursu" else "Tursusuz"
+                b, _ = cip_olustur(cik_sat, cik_ad, var, "#E53935", "#333333", on_click=lambda a=ad: m_exclusive(a, self.modal_ekle, ekle_btns))
                 b.grid(row=i//6, column=i%6, padx=5, pady=5)
                 cikar_btns.append((ad, b, var))
             
@@ -745,7 +746,7 @@ class KasaSistemi(ctk.CTk):
 
     def sepete_kalemleri_at(self, popup):
         n = []
-        n.extend([f"{k} yok" for k, v in self.modal_cikar.items() if v.get()])
+        n.extend([k + "siz" if k != "Tursu" else "Tursusuz" for k, v in self.modal_cikar.items() if v.get()])
         for k, v in self.modal_ekle.items():
             if v.get():
                 ek_ad = k + "li" if not k.endswith("es") else k + "li"

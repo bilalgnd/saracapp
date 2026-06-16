@@ -462,7 +462,7 @@ fun AnaEkran() {
                             }
                         }
                         Spacer(Modifier.height(24.dp))
-                        Text("v4.0.6 | Credits: bilalgnd", color = Color.DarkGray, fontSize = 12.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Text("v4.0.7 | Credits: bilalgnd", color = Color.DarkGray, fontSize = 12.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
                     }
                 },
                 confirmButton = { Button(onClick = { hafiza.kasaIpKaydet(ipGirdisi.trim()); hafiza.garsonRengiKaydet(renkGirdisi); kasaAyarPenceresiAcik = false }) { Text("Kaydet", fontSize = 15.sp) } },
@@ -557,8 +557,8 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
             if (!isIcecek) {
                 Text("Icerik", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary, fontSize = 15.sp)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 4.dp)) {
-                    val zityon = mapOf("Sogan Yok" to "Soganli", "Soganli" to "Sogan Yok", "Domates Yok" to "Domatesli", "Domatesli" to "Domates Yok", "Patates Yok" to "Patatesli", "Patatesli" to "Patates Yok", "Ketcap Yok" to "Ketcapli", "Ketcapli" to "Ketcap Yok", "Mayonez Yok" to "Mayonezli", "Mayonezli" to "Mayonez Yok", "Tursu Yok" to "Tursulu", "Tursulu" to "Tursu Yok")
-                    val cikar = listOf("Sogan Yok", "Domates Yok", "Patates Yok", "Ketcap Yok", "Mayonez Yok", "Tursu Yok")
+                    val zityon = mapOf("Sogansiz" to "Soganli", "Soganli" to "Sogansiz", "Domatessiz" to "Domatesli", "Domatesli" to "Domatessiz", "Patatessiz" to "Patatesli", "Patatesli" to "Patatessiz", "Ketcapsiz" to "Ketcapli", "Ketcapli" to "Ketcapsiz", "Mayonezsiz" to "Mayonezli", "Mayonezli" to "Mayonezsiz", "Tursusuz" to "Tursulu", "Tursulu" to "Tursusuz")
+                    val cikar = listOf("Sogansiz", "Domatessiz", "Patatessiz", "Ketcapsiz", "Mayonezsiz", "Tursusuz")
                     val ekle = listOf("Soganli", "Domatesli", "Patatesli", "Ketcapli", "Mayonezli", "Tursulu")
                     cikar.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { val s = !(seciliNotlar[malz] ?: false); seciliNotlar[malz] = s; if(s && zityon.containsKey(malz)) seciliNotlar[zityon[malz]!!] = false }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFFE53935), selectedLabelColor = Color.White)) }
                     ekle.forEach { malz -> FilterChip(selected = seciliNotlar[malz] == true, onClick = { val s = !(seciliNotlar[malz] ?: false); seciliNotlar[malz] = s; if(s && zityon.containsKey(malz)) seciliNotlar[zityon[malz]!!] = false }, label = { Text(malz, fontSize = 13.sp) }, colors = FilterChipDefaults.filterChipColors(selectedContainerColor = Color(0xFF4CAF50), selectedLabelColor = Color.White)) }
@@ -685,7 +685,7 @@ fun SiparisBottomSheet(urun: Urun, guncelMasaAdi: String?, icecekMenusu: List<Ur
                 onClick = {
                     val kalemler = mutableListOf<SiparisKalemi>()
                     val tumNotlar = mutableListOf<String>()
-                    tumNotlar.addAll(seciliNotlar.filter { it.value }.map { "${it.key} yok" })
+                    tumNotlar.addAll(seciliNotlar.filter { it.value }.map { it.key })
                     tumNotlar.addAll(seciliUcretsizEkstralar.filter { it.value }.map { it.key })
                     tumNotlar.addAll(seciliUcretliEkstralar.filter { it.value }.map { "${it.key} eklendi" }) 
                     tumNotlar.addAll(seciliOdemeler.filter { it.value }.map { it.key })
