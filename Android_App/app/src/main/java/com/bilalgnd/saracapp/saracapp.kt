@@ -665,9 +665,12 @@ fun AdisyonKarti(adisyon: Adisyon, tamamlandiClick: () -> Unit, kalemSilClick: (
         Column(modifier = Modifier.padding(20.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Row(modifier = Modifier.weight(1f), verticalAlignment = Alignment.CenterVertically) {
-                    if (adisyon.renk != null) {
-                        Box(modifier = Modifier.size(16.dp).background(Color(android.graphics.Color.parseColor(adisyon.renk)), CircleShape))
-                        Spacer(modifier = Modifier.width(8.dp))
+                    if (!adisyon.renk.isNullOrBlank()) {
+                        val pColor = try { android.graphics.Color.parseColor(adisyon.renk) } catch(e: Exception) { android.graphics.Color.TRANSPARENT }
+                        if (pColor != android.graphics.Color.TRANSPARENT) {
+                            Box(modifier = Modifier.size(16.dp).background(Color(pColor), CircleShape))
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
                     }
                     Text(text = "${adisyon.musteriAdi} ${if (adisyon.saat.isNotBlank()) "(${adisyon.saat})" else ""}", fontWeight = FontWeight.Black, fontSize = 24.sp, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
