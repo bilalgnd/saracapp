@@ -85,6 +85,16 @@ baslangic_menu_kampanya = [
 ]
 baslangic_menu_icecekler = [
     {"ad": "Kutu Kola", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
+    {"ad": "Ayran", "secenekler": [{"gr": "Standart", "fiyat": 30}]},
+    {"ad": "Açık Ayran", "secenekler": [{"gr": "Standart", "fiyat": 50}]},
+    {"ad": "Şişe Kola", "secenekler": [{"gr": "Standart", "fiyat": 60}]},
+    {"ad": "Su", "secenekler": [{"gr": "Standart", "fiyat": 20}]},
+    {"ad": "Sprite", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
+    {"ad": "Fanta", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
+    {"ad": "Cola Zero", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
+    {"ad": "Şalgam", "secenekler": [{"gr": "Standart", "fiyat": 50}]},
+    {"ad": "Soda", "secenekler": [{"gr": "Standart", "fiyat": 25}]}
+]},
     {"ad": "Sprite", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
     {"ad": "Fanta", "secenekler": [{"gr": "Standart", "fiyat": 80}]},
     {"ad": "Şişe Kola", "secenekler": [{"gr": "Standart", "fiyat": 60}]},
