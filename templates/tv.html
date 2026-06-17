@@ -163,7 +163,7 @@
     </div>
 
     <div id="ytContainer">
-        <iframe id="ytIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <iframe id="ytIframe" src="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
     </div>
 
     <div class="grid" id="ordersGrid"></div>
@@ -247,8 +247,15 @@
 
         let currentYtLink = "";
 
-        function getYouTubeEmbedUrl(url) {
-            if (!url) return "";
+        function getEmbedInfo(url) {
+            if (!url) return null;
+            if (url.includes("spotify.com")) {
+                const parts = url.split("spotify.com/")[1].split("?")[0];
+                return {
+                    url: `https://open.spotify.com/embed/${parts}?utm_source=generator`,
+                    isSpotify: true
+                };
+            }
             let embedUrl = "";
             if (url.includes("playlist?list=")) {
                 const listId = url.split("list=")[1].split("&")[0];
@@ -260,7 +267,7 @@
                 const videoId = url.split("youtu.be/")[1].split("?")[0];
                 embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
             }
-            return embedUrl;
+            return embedUrl ? { url: embedUrl, isSpotify: false } : null;
         }
 
         async function checkTvSettings() {
@@ -275,9 +282,20 @@
                     const container = document.getElementById('ytContainer');
                     
                     if (ytLink) {
-                        const embedUrl = getYouTubeEmbedUrl(ytLink);
-                        if (embedUrl) {
-                            iframe.src = embedUrl;
+                        const embedInfo = getEmbedInfo(ytLink);
+                        if (embedInfo) {
+                            iframe.src = embedInfo.url;
+                            if (embedInfo.isSpotify) {
+                                container.style.width = '300px';
+                                container.style.height = '152px';
+                                container.style.border = '2px solid #1DB954';
+                                container.style.boxShadow = '0 0 20px rgba(29, 185, 84, 0.3)';
+                            } else {
+                                container.style.width = '320px';
+                                container.style.height = '180px';
+                                container.style.border = '2px solid red';
+                                container.style.boxShadow = '0 0 20px rgba(255,0,0,0.3)';
+                            }
                             container.style.display = 'block';
                         } else {
                             iframe.src = "";

@@ -231,7 +231,7 @@ def port_musait_mi(port):
         return s.connect_ex(('localhost', port)) != 0
 
 AKTIF_PORT = 5000
-MEVCUT_VERSIYON = "v4.1.1"
+MEVCUT_VERSIYON = "v4.1.2"
 for p in range(5000, 5010):
     if port_musait_mi(p):
         AKTIF_PORT = p
@@ -286,7 +286,7 @@ class KasaSistemi(ctk.CTk):
         tepe_kutu.pack(fill="x", padx=5, pady=5)
         self.baslik = ctk.CTkLabel(tepe_kutu, text="SARAÇOĞLU", font=("Arial", 28, "bold"), text_color="#FF9800")
         self.baslik.pack(side="left", padx=(5, 0))
-        ctk.CTkLabel(tepe_kutu, text="v4.1.1", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
+        ctk.CTkLabel(tepe_kutu, text="v4.1.2", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
 
         bilgi_kutu = ctk.CTkFrame(tepe_kutu, fg_color="#1E1E1E", corner_radius=10); bilgi_kutu.pack(side="left", padx=5)
         gosterilecek_ip = KASA_IP if AKTIF_PORT == 5000 else f"{KASA_IP}:{AKTIF_PORT}"
@@ -412,7 +412,7 @@ class KasaSistemi(ctk.CTk):
                                 except: pass
                                 durum_lbl.configure(text="Garsonlara bildirim basariyla yollandi!", text_color="#FFEB3B")
                         
-                        if tag == "v4.1.1" or tag == "4.1.1":
+                        if tag == "v4.1.2" or tag == "4.1.2":
                             ctk.CTkLabel(panel, text=f"Kasa Uygulamasi Guncel ({tag})", font=("Arial", 22, "bold"), text_color="#2196F3").pack(pady=15)
                             ctk.CTkLabel(panel, text="Ancak garson tabletleri guncel degilse\nasagidan onlara guncelleme gonderebilirsiniz.", font=("Arial", 14)).pack(pady=5)
                             if apk_url:
@@ -476,7 +476,7 @@ class KasaSistemi(ctk.CTk):
         popup.transient(self)
         popup.grab_set()
 
-        ctk.CTkLabel(popup, text="YouTube Video veya Playlist Linki:", font=("Arial", 18, "bold")).pack(pady=(20, 10))
+        ctk.CTkLabel(popup, text="YouTube veya Spotify Linki:", font=("Arial", 18, "bold")).pack(pady=(20, 10))
         
         link_var = ctk.StringVar(value=SISTEM_AYARLARI.get("YOUTUBE_LINK", ""))
         link_entry = ctk.CTkEntry(popup, textvariable=link_var, font=("Arial", 16), width=450)
