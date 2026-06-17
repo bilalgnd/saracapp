@@ -158,6 +158,16 @@ def ana_sayfa():
 @flask_app.route('/tv')
 def tv_sayfa():
     return render_template('tv.html')
+
+@flask_app.route('/tv_settings')
+def tv_settings():
+    return jsonify({"youtube_url": SISTEM_AYARLARI.get("YOUTUBE_LINK", "")})
+
+
+@flask_app.route('/tv_settings')
+def tv_settings():
+    return jsonify({"youtube_url": SISTEM_AYARLARI.get("YOUTUBE_LINK", "")})
+
 kasa_arayuz_referansi = None 
 bagli_telefonlar = set()
 son_kalp_atisi = 0
@@ -239,7 +249,7 @@ class KasaSistemi(ctk.CTk):
         global kasa_arayuz_referansi
         kasa_arayuz_referansi = self
 
-        self.title("SARACOGLU DONER v4.1.0")
+        self.title("SARACOGLU DONER v4.1.1")
         ctk.set_appearance_mode("dark") 
         self.geometry("1400x800")
         self.minsize(1300, 700)
@@ -460,6 +470,31 @@ class KasaSistemi(ctk.CTk):
         if time.time() - son_kalp_atisi < 5: self.garson_isik_lbl.configure(text="🟢 Garson: Çevrimiçi", text_color="#4CAF50")
         else: self.garson_isik_lbl.configure(text="🔴 Garson: Çevrimdışı", text_color="#F44336")
         self.after(2000, self.isik_kontrol_dongusu)
+
+    def muzik_ayari_penceresi(self):
+        popup = ctk.CTkToplevel(self)
+        popup.title("TV Müzik Ayari")
+        popup.geometry("500x250")
+        popup.transient(self)
+        popup.grab_set()
+
+        ctk.CTkLabel(popup, text="YouTube Video veya Playlist Linki:", font=("Arial", 18, "bold")).pack(pady=(20, 10))
+        
+        link_var = ctk.StringVar(value=SISTEM_AYARLARI.get("YOUTUBE_LINK", ""))
+        link_entry = ctk.CTkEntry(popup, textvariable=link_var, font=("Arial", 16), width=450)
+        link_entry.pack(pady=10)
+
+        durum_lbl = ctk.CTkLabel(popup, text="", font=("Arial", 14), text_color="green")
+        
+        def kaydet():
+            val = link_var.get().strip()
+            SISTEM_AYARLARI["YOUTUBE_LINK"] = val
+            json_kaydet(AYAR_DOSYASI, SISTEM_AYARLARI)
+            durum_lbl.configure(text="YouTube Linki Başarıyla Kaydedildi!")
+            popup.after(1500, popup.destroy)
+            
+        ctk.CTkButton(popup, text="Kaydet", font=("Arial", 16, "bold"), fg_color="#FF0000", hover_color="#CC0000", command=kaydet).pack(pady=15)
+        durum_lbl.pack(pady=5)
 
     def yazici_ayari_penceresi(self):
         popup = ctk.CTkToplevel(self)
