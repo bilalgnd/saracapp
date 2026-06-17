@@ -231,11 +231,88 @@ def port_musait_mi(port):
         return s.connect_ex(('localhost', port)) != 0
 
 AKTIF_PORT = 5000
-MEVCUT_VERSIYON = "v4.1.2"
+MEVCUT_VERSIYON = "v4.1.3"
 for p in range(5000, 5010):
     if port_musait_mi(p):
         AKTIF_PORT = p
         break
+
+import base64
+import requests
+from urllib.parse import urlencode
+
+@flask_app.route('/spotify/login')
+def spotify_login():
+    SPOTIFY_CLIENT_ID = SISTEM_AYARLARI.get("SPOTIFY_CLIENT_ID", "")
+    if not SPOTIFY_CLIENT_ID:
+        return "Lutfen once Kasa ayarlarindan Client ID girin."
+    scope = "streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state"
+    auth_url = "https://accounts.spotify.com/authorize?" + urlencode({
+        "response_type": "code",
+        "client_id": SPOTIFY_CLIENT_ID,
+        "scope": scope,
+        "redirect_uri": "http://127.0.0.1:5000/spotify/callback"
+    })
+    return redirect(auth_url)
+
+@flask_app.route('/spotify/callback')
+def spotify_callback():
+    code = request.args.get('code')
+    if not code:
+        return "Spotify baglantisi reddedildi."
+    
+    SPOTIFY_CLIENT_ID = SISTEM_AYARLARI.get("SPOTIFY_CLIENT_ID", "")
+    SPOTIFY_CLIENT_SECRET = SISTEM_AYARLARI.get("SPOTIFY_CLIENT_SECRET", "")
+    
+    auth_header = base64.b64encode(f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}".encode()).decode()
+    res = requests.post("https://accounts.spotify.com/api/token", data={
+        "grant_type": "authorization_code",
+        "code": code,
+        "redirect_uri": "http://127.0.0.1:5000/spotify/callback"
+    }, headers={
+        "Authorization": f"Basic {auth_header}",
+        "Content-Type": "application/x-www-form-urlencoded"
+    })
+    
+    if res.status_code == 200:
+        data = res.json()
+        SISTEM_AYARLARI["SPOTIFY_ACCESS_TOKEN"] = data.get("access_token")
+        SISTEM_AYARLARI["SPOTIFY_REFRESH_TOKEN"] = data.get("refresh_token")
+        ayarlari_kaydet()
+        return "Spotify basariyla baglandi! Kasa uygulamasina donebilirsiniz. Bu pencereyi kapatabilirsiniz."
+    else:
+        return f"Hata: {res.text}"
+
+@flask_app.route('/spotify/token')
+def spotify_token():
+    access_token = SISTEM_AYARLARI.get("SPOTIFY_ACCESS_TOKEN", "")
+    refresh_token = SISTEM_AYARLARI.get("SPOTIFY_REFRESH_TOKEN", "")
+    if not access_token or not refresh_token:
+        return jsonify({"error": "not_logged_in"}), 401
+        
+    test_res = requests.get("https://api.spotify.com/v1/me", headers={"Authorization": f"Bearer {access_token}"})
+    if test_res.status_code == 401:
+        SPOTIFY_CLIENT_ID = SISTEM_AYARLARI.get("SPOTIFY_CLIENT_ID", "")
+        SPOTIFY_CLIENT_SECRET = SISTEM_AYARLARI.get("SPOTIFY_CLIENT_SECRET", "")
+        auth_header = base64.b64encode(f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}".encode()).decode()
+        ref_res = requests.post("https://accounts.spotify.com/api/token", data={
+            "grant_type": "refresh_token",
+            "refresh_token": refresh_token
+        }, headers={
+            "Authorization": f"Basic {auth_header}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        })
+        if ref_res.status_code == 200:
+            data = ref_res.json()
+            SISTEM_AYARLARI["SPOTIFY_ACCESS_TOKEN"] = data.get("access_token")
+            if "refresh_token" in data:
+                SISTEM_AYARLARI["SPOTIFY_REFRESH_TOKEN"] = data.get("refresh_token")
+            ayarlari_kaydet()
+            access_token = SISTEM_AYARLARI["SPOTIFY_ACCESS_TOKEN"]
+        else:
+            return jsonify({"error": "refresh_failed"}), 401
+            
+    return jsonify({"access_token": access_token})
 
 def sunucuyu_baslat(): flask_app.run(host='0.0.0.0', port=AKTIF_PORT, debug=False, use_reloader=False)
 
@@ -286,7 +363,7 @@ class KasaSistemi(ctk.CTk):
         tepe_kutu.pack(fill="x", padx=5, pady=5)
         self.baslik = ctk.CTkLabel(tepe_kutu, text="SARAÇOĞLU", font=("Arial", 28, "bold"), text_color="#FF9800")
         self.baslik.pack(side="left", padx=(5, 0))
-        ctk.CTkLabel(tepe_kutu, text="v4.1.2", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
+        ctk.CTkLabel(tepe_kutu, text="v4.1.3", font=("Arial", 12, "bold"), text_color="gray").pack(side="left", padx=5, pady=(5, 0))
 
         bilgi_kutu = ctk.CTkFrame(tepe_kutu, fg_color="#1E1E1E", corner_radius=10); bilgi_kutu.pack(side="left", padx=5)
         gosterilecek_ip = KASA_IP if AKTIF_PORT == 5000 else f"{KASA_IP}:{AKTIF_PORT}"
@@ -412,7 +489,7 @@ class KasaSistemi(ctk.CTk):
                                 except: pass
                                 durum_lbl.configure(text="Garsonlara bildirim basariyla yollandi!", text_color="#FFEB3B")
                         
-                        if tag == "v4.1.2" or tag == "4.1.2":
+                        if tag == "v4.1.3" or tag == "4.1.3":
                             ctk.CTkLabel(panel, text=f"Kasa Uygulamasi Guncel ({tag})", font=("Arial", 22, "bold"), text_color="#2196F3").pack(pady=15)
                             ctk.CTkLabel(panel, text="Ancak garson tabletleri guncel degilse\nasagidan onlara guncelleme gonderebilirsiniz.", font=("Arial", 14)).pack(pady=5)
                             if apk_url:
