@@ -154,6 +154,10 @@ sock = Sock(flask_app)
 @flask_app.route('/')
 def ana_sayfa():
     return render_template('index.html')
+
+@flask_app.route('/tv')
+def tv_sayfa():
+    return render_template('tv.html')
 kasa_arayuz_referansi = None 
 bagli_telefonlar = set()
 son_kalp_atisi = 0
