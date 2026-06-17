@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARAÇOĞLU Mutfak Ekranı</title>
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --surface: #1e1e1e;
+            --primary: #D84315;
+            --text: #ffffff;
+            --text-sec: #aaaaaa;
+            --border: #333333;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .clock {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ddd;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            align-items: start;
+        }
+
+        .order-card {
+            background-color: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .order-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .order-time {
+            font-size: 18px;
+            color: #ff9800;
+            font-weight: bold;
+        }
+
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .item {
+            display: flex;
+            flex-direction: column;
+            background: #2a2a2a;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .item-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #eee;
+        }
+
+        .item-notes {
+            font-size: 16px;
+            color: #ff5252;
+            margin-top: 4px;
+            font-weight: bold;
+        }
+
+        .empty-state {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: var(--text-sec);
+        }
+
+        .empty-state h2 {
+            font-size: 48px;
+            margin: 0;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>SARAÇOĞLU <span>MUTFAK EKRANI</span></h1>
+        <div class="clock" id="clock">00:00:00</div>
+    </div>
+
+    <div class="empty-state" id="emptyState">
+        <h2>Sipariş Bekleniyor...</h2>
+    </div>
+
+    <div class="grid" id="ordersGrid"></div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        let ws;
+
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+
+            ws.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    if (Array.isArray(data)) {
+                        renderOrders(data);
+                    }
+                } catch(e) {}
+            };
+
+            ws.onclose = function() {
+                setTimeout(connectWebSocket, 3000);
+            };
+        }
+
+        function renderOrders(orders) {
+            const grid = document.getElementById('ordersGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            grid.innerHTML = '';
+
+            if (!orders || orders.length === 0) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            orders.forEach(order => {
+                const card = document.createElement('div');
+                card.className = 'order-card';
+                if (order.renk) {
+                    card.style.borderColor = order.renk;
+                }
+
+                let itemsHtml = '';
+                if(order.kalemler) {
+                    order.kalemler.forEach(item => {
+                        let notlar = item.notlar ? `<div class="item-notes">${item.notlar}</div>` : '';
+                        itemsHtml += `
+                            <div class="item">
+                                <div class="item-name">${item.ad} <span style="color:#aaa; font-size:16px;">(${item.gramaj})</span></div>
+                                ${notlar}
+                            </div>
+                        `;
+                    });
+                }
+
+                card.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-title">${order.musteri_adi}</div>
+                        <div class="order-time">${order.saat || ''}</div>
+                    </div>
+                    <div class="item-list">
+                        ${itemsHtml}
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        connectWebSocket();
+    </script>
+</body>
+</html>

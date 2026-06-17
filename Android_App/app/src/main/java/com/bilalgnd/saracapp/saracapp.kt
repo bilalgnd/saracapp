@@ -462,7 +462,7 @@ fun AnaEkran() {
                             }
                         }
                         Spacer(Modifier.height(24.dp))
-                        Text("v4.0.9 | Credits: bilalgnd", color = Color.DarkGray, fontSize = 12.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
+                        Text("v4.1.0 | Credits: bilalgnd", color = Color.DarkGray, fontSize = 12.sp, modifier = Modifier.align(Alignment.CenterHorizontally))
                     }
                 },
                 confirmButton = { Button(onClick = { hafiza.kasaIpKaydet(ipGirdisi.trim()); hafiza.garsonRengiKaydet(renkGirdisi); kasaAyarPenceresiAcik = false }) { Text("Kaydet", fontSize = 15.sp) } },
