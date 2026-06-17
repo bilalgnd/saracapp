@@ -164,10 +164,6 @@ def tv_settings():
     return jsonify({"youtube_url": SISTEM_AYARLARI.get("YOUTUBE_LINK", "")})
 
 
-@flask_app.route('/tv_settings')
-def tv_settings():
-    return jsonify({"youtube_url": SISTEM_AYARLARI.get("YOUTUBE_LINK", "")})
-
 kasa_arayuz_referansi = None 
 bagli_telefonlar = set()
 son_kalp_atisi = 0
