@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Saraçoğlu Döner | Eşsiz Lezzet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="container nav-container">
+        <a href="#" class="logo">
+          <div class="logo-wrapper">
+            SARAÇOĞLU
+            <span>DÖNER</span>
+          </div>
+        </a>
+        
+        <nav class="nav-links">
+          <a href="#hero">Ana Sayfa</a>
+          <a href="#about">Hakkımızda</a>
+          <a href="#menu">Menü</a>
+          <a href="#contact">İletişim</a>
+        </nav>
+
+        <button class="mobile-menu-btn">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <img src="./images/hero.png" alt="Delicious Doner" class="hero-bg" />
+      <div class="hero-overlay"></div>
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Geleneksel Lezzetin Adresi</h1>
+          <p class="hero-subtitle">Kaliteli malzemeler ve usta ellerden çıkan eşsiz döner lezzetini bizimle keşfedin.</p>
+          <a href="#menu" class="btn btn-primary">Menüyü Keşfet</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container about-grid">
+        <div class="about-img-wrapper">
+          <img src="./images/about.png" alt="Restaurant Interior" class="about-img" />
+        </div>
+        <div class="about-text">
+          <h2 class="section-title" style="text-align: left;">Biz Kimiz?</h2>
+          <h3>Lezzet Yolculuğumuz</h3>
+          <p>Yılların verdiği tecrübe ile her gün taze, helal kesim etlerden hazırladığımız dönerlerimizi siz değerli misafirlerimize sunuyoruz. Amacımız sadece karın doyurmak değil, damaklarda unutulmaz bir tat bırakmak.</p>
+          <p>Hijyen, kalite ve müşteri memnuniyeti en önemli prensiplerimizdir. Ailenizle, sevdiklerinizle güvenle gelebileceğiniz sıcak bir ortamda sizleri ağırlamaktan mutluluk duyuyoruz.</p>
+          
+          <div class="features">
+            <div class="feature">
+              <i class="fas fa-check-circle"></i> %100 Yaprak Et
+            </div>
+            <div class="feature">
+              <i class="fas fa-leaf"></i> Taze Malzemeler
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+      <div class="container">
+        <h2 class="section-title">Lezzetlerimiz</h2>
+        
+        <div class="menu-categories">
+          <button class="category-btn active" data-filter="all">Tümü</button>
+          <button class="category-btn" data-filter="et">Et Döner</button>
+          <button class="category-btn" data-filter="tavuk">Tavuk Döner</button>
+          <button class="category-btn" data-filter="kampanya">Kampanyalar</button>
+          <button class="category-btn" data-filter="icecek">İçecekler</button>
+        </div>
+
+        <div class="menu-grid">
+          <!-- Et Döner -->
+          <div class="menu-item" data-category="et">
+            <div class="item-header">
+              <span class="item-title">Et Tombik</span>
+            </div>
+            <p class="item-desc">Özel odun fırınında pişmiş taze tombik ekmek arası yaprak et döner.</p>
+          </div>
+          <div class="menu-item" data-category="et">
+            <div class="item-header">
+              <span class="item-title">Et Dürüm</span>
+            </div>
+            <p class="item-desc">İncecik, sıcak lavaş arası leziz et döner.</p>
+          </div>
+          <div class="menu-item" data-category="et">
+            <div class="item-header">
+              <span class="item-title">İskender</span>
+            </div>
+            <p class="item-desc">Özel tereyağlı sosu, yoğurt ve pide üzerinde efsane et döner.</p>
+          </div>
+          <div class="menu-item" data-category="et">
+            <div class="item-header">
+              <span class="item-title">Beyti</span>
+            </div>
+            <p class="item-desc">Özel sarım beyti, sos ve tereyağı eşliğinde.</p>
+          </div>
+
+          <!-- Tavuk Döner -->
+          <div class="menu-item" data-category="tavuk">
+            <div class="item-header">
+              <span class="item-title">Tavuk Tombik</span>
+            </div>
+            <p class="item-desc">Sıcak tombik ekmek arası özel soslu tavuk döner.</p>
+          </div>
+          <div class="menu-item" data-category="tavuk">
+            <div class="item-header">
+              <span class="item-title">Hatay Usulü Tavuk Dürüm</span>
+            </div>
+            <p class="item-desc">Bol soslu, baharatlı, özel Hatay lavaşına sarılı.</p>
+          </div>
+          <div class="menu-item" data-category="tavuk">
+            <div class="item-header">
+              <span class="item-title">Tavuk Pilav Üstü</span>
+            </div>
+            <p class="item-desc">Tane tane pirinç pilavı üzerinde tavuk döner.</p>
+          </div>
+
+          <!-- Kampanya -->
+          <div class="menu-item" data-category="kampanya">
+            <div class="item-header">
+              <span class="item-title">Et Döner + Ayran</span>
+            </div>
+            <p class="item-desc">Favori ikili, doyurucu menü.</p>
+          </div>
+          <div class="menu-item" data-category="kampanya">
+            <div class="item-header">
+              <span class="item-title">Tavuk Döner + Ayran</span>
+            </div>
+            <p class="item-desc">Ekonomik ve lezzetli menü.</p>
+          </div>
+
+          <!-- İçecekler -->
+          <div class="menu-item" data-category="icecek">
+            <div class="item-header">
+              <span class="item-title">Kutu İçecekler</span>
+            </div>
+            <p class="item-desc">Kola, Fanta, Sprite</p>
+          </div>
+          <div class="menu-item" data-category="icecek">
+            <div class="item-header">
+              <span class="item-title">Ayran / Açık Ayran</span>
+            </div>
+            <p class="item-desc">Bol köpüklü, taze ayran.</p>
+          </div>
+          <div class="menu-item" data-category="icecek">
+            <div class="item-header">
+              <span class="item-title">Şalgam / Soda</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2 class="section-title">Bize Ulaşın</h2>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="info-text">
+                <h4>Adres</h4>
+                <p>Cumhuriyet Cad. No: 123<br>Merkez / Çanakkale</p>
+              </div>
+            </div>
+            
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-phone"></i></div>
+              <div class="info-text">
+                <h4>Telefon</h4>
+                <p>0 (555) 123 45 67<br>0 (286) 123 45 67</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-clock"></i></div>
+              <div class="info-text">
+                <h4>Çalışma Saatleri</h4>
+                <p>Her Gün: 10:00 - 22:00</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon"><i class="fas fa-hashtag"></i></div>
+              <div class="info-text">
+                <h4>Sosyal Medya</h4>
+                <p>@saracogludoner</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="map-container">
+            <!-- Google Maps Embed Placeholder -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3056.402519102287!2d26.4019183!3d40.1424783!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b1a9cc189a66d5%3A0x6b10eb8cde1159cc!2s%C3%87anakkale!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2026 Saraçoğlu Döner. Tüm Hakları Saklıdır.</p>
+      </div>
+    </footer>
+
+    <script src="./main.js" defer></script>
+  </body>
+</html>
